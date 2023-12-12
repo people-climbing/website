@@ -1,8 +1,8 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import { Canvas, useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import styles from "./page.module.css";
-import * as THREE from "three";
 
 export default function Home() {
   const [time, setTime] = useState(null);
@@ -26,84 +26,35 @@ export default function Home() {
     return h + ":" + m + ":" + s;
   }
 
-  const images = [
-    "/bart.jpg",
-    "/donk.png",
-    "/himalsmall.gif",
-    "/poorguy.jpg",
-    "/bart.jpg",
-    "/donk.png",
-    "/himalsmall.gif",
-    "/poorguy.jpg",
-    "/bart.jpg",
-    "/donk.png",
-    "/himalsmall.gif",
-    "/poorguy.jpg",
-    "/bart.jpg",
-    "/donk.png",
-    "/himalsmall.gif",
-    "/poorguy.jpg",
-    "/bart.jpg",
-    "/donk.png",
-    "/himalsmall.gif",
-    "/poorguy.jpg",
-  ];
+  const images = ["/bart.jpg", "/donk.png", "/himalsmall.gif", "/poorguy.jpg"];
+  const models = ["isaac", "strongbad"];
 
-  function renderCube() {
+  function renderModel(name, idx) {
+    const gltf = useLoader(GLTFLoader, `/${name}/scene.gltf`);
     return (
-      <div className={styles.wrap}>
-        <div className={styles.cube}>
-          <div className={styles.front}>front</div>
-          <div className={styles.back}>back</div>
-          <div className={styles.top}>top</div>
-          <div className={styles.bottom}>bottom</div>
-          <div className={styles.left}>left</div>
-          <div className={styles.right}>right</div>
-        </div>
-      </div>
+      <group position={[idx, idx, idx]}>
+        <primitive object={gltf.scene} />
+      </group>
     );
   }
-
-  // const scene = new THREE.Scene();
-  // const camera = new THREE.PerspectiveCamera(
-  //   75,
-  //   500, //window.innerWidth / window.innerHeight,
-  //   0.1,
-  //   1000
-  // );
-
-  // const renderer = new THREE.WebGLRenderer();
-  // renderer.setSize(500); //window.innerWidth, window.innerHeight);
-  // document.body.appendChild(renderer.domElement);
-
-  // const geometry = new THREE.BoxGeometry(1, 1, 1);
-  // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  // const cube = new THREE.Mesh(geometry, material);
-  // scene.add(cube);
-
-  // camera.position.z = 5;
-
-  // function animate() {
-  //   requestAnimationFrame(animate);
-
-  //   cube.rotation.x += 0.01;
-  //   cube.rotation.y += 0.01;
-
-  //   renderer.render(scene, camera);
-  // }
-  // animate();
 
   return (
     <main className={styles.main}>
       <div className={styles.time}>{time}</div>
-      <div className={styles.grid}>
+      {/* <div className={styles.grid}>
         {images.map((i) => (
           <div className={styles.image} key={i}>
             <Image src={i} height="150" width="150" alt={i} />
           </div>
         ))}
+      </div> */}
+      <div className={styles.grid}>
+        <Canvas>
+          <ambientLight intensity={0.1} />
+          <directionalLight color="white" position={[1, 1, 5]} />
+          <mesh>{models.map((name, idx) => renderModel(name, idx))}</mesh>
+        </Canvas>
       </div>
-      {/* {renderCube()} */}
     </main>
   );
 }
