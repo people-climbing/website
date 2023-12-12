@@ -6,10 +6,12 @@ import styles from "./page.module.css";
 
 export default function Home() {
   const [time, setTime] = useState(null);
+  const [models, setModels] = useState([]);
   useEffect(() => {
     setInterval(() => {
       setTime(getTime());
     }, 1000);
+    setModels(["isaac", "strongbad"])
   }, []);
   function getTime() {
     function addZero(i) {
@@ -27,7 +29,6 @@ export default function Home() {
   }
 
   const images = ["/bart.jpg", "/donk.png", "/himalsmall.gif", "/poorguy.jpg"];
-  const models = ["isaac", "strongbad"];
 
   function renderModel(name, idx) {
     const gltf = useLoader(GLTFLoader, `/${name}/scene.gltf`);
