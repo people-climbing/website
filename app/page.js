@@ -33,7 +33,7 @@ export default function Home() {
   function renderModel(name, idx) {
     const gltf = useLoader(GLTFLoader, `/${name}/scene.gltf`);
     return (
-      <group position={[idx, idx, idx]}>
+      <group position={[idx, idx, idx]} key={idx}>
         <primitive object={gltf.scene} />
       </group>
     );
