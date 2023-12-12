@@ -26,7 +26,28 @@ export default function Home() {
     return h + ":" + m + ":" + s;
   }
 
-  const images = ["/bart.jpg", "/donk.png", "/himalsmall.gif", "poorguy.jpg"];
+  const images = [
+    "/bart.jpg",
+    "/donk.png",
+    "/himalsmall.gif",
+    "/poorguy.jpg",
+    "/bart.jpg",
+    "/donk.png",
+    "/himalsmall.gif",
+    "/poorguy.jpg",
+    "/bart.jpg",
+    "/donk.png",
+    "/himalsmall.gif",
+    "/poorguy.jpg",
+    "/bart.jpg",
+    "/donk.png",
+    "/himalsmall.gif",
+    "/poorguy.jpg",
+    "/bart.jpg",
+    "/donk.png",
+    "/himalsmall.gif",
+    "/poorguy.jpg",
+  ];
 
   function renderCube() {
     return (
@@ -75,11 +96,13 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.time}>{time}</div>
-      {images.map((i) => (
-        <div className={styles.image} key={i}>
-          <Image src={i} height="150" width="150" alt={i} />
-        </div>
-      ))}
+      <div className={styles.grid}>
+        {images.map((i) => (
+          <div className={styles.image} key={i}>
+            <Image src={i} height="150" width="150" alt={i} />
+          </div>
+        ))}
+      </div>
       {/* {renderCube()} */}
     </main>
   );
