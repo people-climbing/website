@@ -3,15 +3,21 @@ import { useEffect, useState } from "react";
 import { Canvas, useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import styles from "./page.module.css";
+import { AnimationAction } from "three";
 
 export default function Home() {
   const [time, setTime] = useState(null);
   const [models, setModels] = useState([]);
+  const [animate, setAnimate] = useState(false);
   useEffect(() => {
     setInterval(() => {
       setTime(getTime());
     }, 1000);
-    setModels(["isaac", "strongbad"])
+    setModels([
+      { name: "isaac", scale: 0.4, offset: 0 },
+      { name: "strongbad", scale: 1.5, offset: 0 },
+      { name: "katamari", scale: 0.25, offset: 1 },
+    ]);
   }, []);
   function getTime() {
     function addZero(i) {
@@ -30,10 +36,22 @@ export default function Home() {
 
   const images = ["/bart.jpg", "/donk.png", "/himalsmall.gif", "/poorguy.jpg"];
 
-  function renderModel(name, idx) {
-    const gltf = useLoader(GLTFLoader, `/${name}/scene.gltf`);
+  function renderModel(model, idx) {
+    // const ref = useUpdate((group) => {
+    //   group.rotateX(Math.PI / 2);
+    // }, []);
+    const gltf = useLoader(GLTFLoader, `/${model.name}/scene.gltf`);
     return (
-      <group position={[idx, -2, idx]} key={idx}>
+      <group
+        // ref={ref}
+        position={[idx * 3 - 3, -1 + model.offset, 0]}
+        key={idx}
+        scale={model.scale}
+        // onMouseEnter={() => setAnimate(true)}
+        // onMouseLeave={() => setAnimate(false)}
+      >
+        <boxGeometry />
+        {/* <AnimationAction enabled={animate} /> */}
         <primitive object={gltf.scene} />
       </group>
     );
@@ -42,18 +60,11 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.time}>{time}</div>
-      {/* <div className={styles.grid}>
-        {images.map((i) => (
-          <div className={styles.image} key={i}>
-            <Image src={i} height="150" width="150" alt={i} />
-          </div>
-        ))}
-      </div> */}
       <div className={styles.grid}>
         <Canvas>
           <ambientLight intensity={0.1} />
-          <directionalLight color="white" position={[1, 1, 5]} />
-          <mesh>{models.map((name, idx) => renderModel(name, idx))}</mesh>
+          <directionalLight color="white" position={[1, -1, 0.6]} />
+          <mesh>{models.map((model, idx) => renderModel(model, idx))}</mesh>
         </Canvas>
       </div>
     </main>

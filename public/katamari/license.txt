@@ -1,0 +1,11 @@
+Model Information:
+* title:	The Prince of All Cosmos - Katamari
+* source:	https://sketchfab.com/3d-models/the-prince-of-all-cosmos-katamari-bbe89091f4a8425d84f880e57e264661
+* author:	VossaDova (https://sketchfab.com/VossaDova)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "The Prince of All Cosmos - Katamari" (https://sketchfab.com/3d-models/the-prince-of-all-cosmos-katamari-bbe89091f4a8425d84f880e57e264661) by VossaDova (https://sketchfab.com/VossaDova) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
