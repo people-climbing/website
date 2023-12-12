@@ -1,11 +1,12 @@
 .main {
+  background-image: url("/bg.gif");
+  background-color: rgb(22, 22, 22);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
-  background-color: rgb(22, 22, 22);
   color: #fff;
   font-size: 40px;
   text-shadow: 0 0 20px #000;
@@ -41,4 +42,51 @@
   .image:hover {
     transform: translateZ(-1px);
   }
+}
+
+.wrap {
+	perspective: 400px;
+	perspective-origin: 50% 100px;
+}
+
+.cube {
+	width: 200px;
+	transform-style: preserve-3d;
+}
+
+.cube div {
+	width: 200px;
+	height: 200px;
+}
+
+.back {
+	transform: translateZ(-100px) rotateY(180deg);
+}
+.right {
+	transform: rotateY(-270deg) translateX(100px);
+	transform-origin: top right;
+}
+.left {
+	transform: rotateY(270deg) translateX(-100px);
+	transform-origin: center left;
+}
+.top {
+	transform: rotateX(-90deg) translateY(-100px);
+	transform-origin: top center;
+}
+.bottom {
+	transform: rotateX(90deg) translateY(100px);
+	transform-origin: bottom center;
+}
+.front {
+	transform: translateZ(100px);
+}
+
+@keyframes spin {
+	from { transform: rotateY(0); }
+	to { transform: rotateY(360deg); }
+}
+
+.cube {
+	animation: spin 5s infinite linear;
 }
