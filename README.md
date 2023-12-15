@@ -1,40 +1,30 @@
 # peopleclimbing.com
 ## PS2 menu - inspired website
 
+## stack
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+next.js, react, three.js, react-three-fiber
 
-## Getting Started
-
-First, run the development server:
+## running
 
 ```bash
+npm i
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## deploying
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+`npm run deploy` executes a static build and pushes the assets to the `gh-pages` branch of this GitHub repository, which triggers a GitHub Pages build
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## attributions
 
-## Learn More
+### models
 
-To learn more about Next.js, take a look at the following resources:
+all license files are in their respective directories
+- [Isaac](https://sketchfab.com/3d-models/isaac-9ec61d883eb04c79981cada6eb300af7) by [NGResource](https://sketchfab.com/T0MFULP)
+- [Strong Bad](https://sketchfab.com/3d-models/strong-bad-694ccc123f3747f9a621d0d3d2c5d08b) by [THEREALBIGGRAFIS](https://sketchfab.com/THEREALBIGGRAFIS)
+- [The Prince of All Cosmos - Katamari](https://sketchfab.com/3d-models/the-prince-of-all-cosmos-katamari-bbe89091f4a8425d84f880e57e264661) by [VossaDova](https://sketchfab.com/VossaDova)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### fonts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+TBD
