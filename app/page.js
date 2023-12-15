@@ -1,24 +1,25 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Canvas, useLoader } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { useEffect, useRef, useState } from "react";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { TextureLoader } from "three/src/loaders/TextureLoader";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
 import styles from "./page.module.css";
-import { AnimationAction } from "three";
 
 export default function Home() {
   const [time, setTime] = useState(null);
   const [models, setModels] = useState([]);
-  const [animate, setAnimate] = useState(false);
+
   useEffect(() => {
     setInterval(() => {
       setTime(getTime());
     }, 1000);
     setModels([
-      { name: "isaac", scale: 0.4, offset: 0 },
-      { name: "strongbad", scale: 1.5, offset: 0 },
-      { name: "katamari", scale: 0.25, offset: 1 },
+      { name: "isaac", relativeScale: 0.4, relativeOffsetY: 0 },
+      { name: "strongbad", relativeScale: 1.5, relativeOffsetY: 0 },
+      { name: "katamari", relativeScale: 0.25, relativeOffsetY: 1 },
     ]);
   }, []);
+
   function getTime() {
     function addZero(i) {
       if (i < 10) {
@@ -26,7 +27,6 @@ export default function Home() {
       }
       return i;
     }
-
     const d = new Date();
     const h = addZero(d.getHours());
     const m = addZero(d.getMinutes());
@@ -34,26 +34,37 @@ export default function Home() {
     return h + ":" + m + ":" + s;
   }
 
-  const images = ["/bart.jpg", "/donk.png", "/himalsmall.gif", "/poorguy.jpg"];
+  // const images = ["/bart.jpg", "/donk.png", "/himalsmall.gif", "/poorguy.jpg"];
 
-  function renderModel(model, idx) {
-    // const ref = useUpdate((group) => {
-    //   group.rotateX(Math.PI / 2);
-    // }, []);
+  function Model(props) {
+    const { model, idx } = props;
+    const ref = useRef();
+
+    useFrame(({ clock }) => {
+      ref.current.rotation.y = clock.getElapsedTime();
+    });
+
+    const x = idx * 3 - 3; // arbitrary, figure out what to do here
+    const y = -1 + model.relativeOffsetY;
     const gltf = useLoader(GLTFLoader, `/${model.name}/scene.gltf`);
     return (
-      <group
-        // ref={ref}
-        position={[idx * 3 - 3, -1 + model.offset, 0]}
-        key={idx}
-        scale={model.scale}
-        // onMouseEnter={() => setAnimate(true)}
-        // onMouseLeave={() => setAnimate(false)}
-      >
-        <boxGeometry />
-        {/* <AnimationAction enabled={animate} /> */}
+      <mesh position={[x, y, 0]} scale={model.relativeScale} ref={ref}>
         <primitive object={gltf.scene} />
-      </group>
+      </mesh>
+    );
+  }
+
+  function Himal() {
+    const himal = useLoader(TextureLoader, "/himalsmall.gif");
+    const ref = useRef();
+    useFrame(({ clock }) => {
+      ref.current.rotation.y = clock.getElapsedTime();
+    });
+    return (
+      <mesh position={[0, -2, 0]} ref={ref}>
+        <boxGeometry/>
+        <meshStandardMaterial map={himal} />
+      </mesh>
     );
   }
 
@@ -64,7 +75,10 @@ export default function Home() {
         <Canvas>
           <ambientLight intensity={0.1} />
           <directionalLight color="white" position={[1, -1, 0.6]} />
-          <mesh>{models.map((model, idx) => renderModel(model, idx))}</mesh>
+          {models.map((model, idx) => (
+            <Model model={model} idx={idx} key={idx} />
+          ))}
+          <Himal />
         </Canvas>
       </div>
     </main>
