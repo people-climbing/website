@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "npm run build && touch ./out/.nojekyll && bash ./deploy.sh"
+    "deploy": "npm run build && bash ./deploy.sh"
   },
   "dependencies": {
     "@react-three/fiber": "^8.15.12",
