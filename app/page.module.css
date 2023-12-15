@@ -11,7 +11,7 @@
 
 .selected {
   position: absolute;
-  top: 15px;
+  bottom: 15px;
   left: 15px;
   filter: blur(1px);
   -webkit-filter: blur(1px);
