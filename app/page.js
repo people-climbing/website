@@ -41,7 +41,7 @@ export default function Home() {
     const ref = useRef();
 
     useFrame(({ clock }) => {
-      ref.current.rotation.y = clock.getElapsedTime();
+      ref.current.rotation.y = clock.getElapsedTime() / 2;
     });
 
     const x = idx * 3 - 3; // arbitrary, figure out what to do here
