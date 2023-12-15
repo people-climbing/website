@@ -9,6 +9,14 @@
   text-shadow: 0 0 20px #000;
 }
 
+.selected {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  filter: blur(1px);
+  -webkit-filter: blur(1px);
+}
+
 .time {
   position: absolute;
   top: 15px;

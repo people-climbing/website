@@ -8,15 +8,31 @@ import styles from "./page.module.css";
 export default function Home() {
   const [time, setTime] = useState(null);
   const [models, setModels] = useState([]);
+  const [selected, select] = useState(null);
 
   useEffect(() => {
     setInterval(() => {
       setTime(getTime());
     }, 1000);
     setModels([
-      { name: "isaac", relativeScale: 0.4, relativeOffsetY: 0 },
-      { name: "strongbad", relativeScale: 1.5, relativeOffsetY: 0 },
-      { name: "katamari", relativeScale: 0.25, relativeOffsetY: 1 },
+      {
+        name: "isaac",
+        relativeScale: 0.4,
+        relativeOffsetY: 0,
+        text: "daosyn",
+      },
+      {
+        name: "strongbad",
+        relativeScale: 1.5,
+        relativeOffsetY: 0,
+        text: "ocutor",
+      },
+      {
+        name: "katamari",
+        relativeScale: 0.25,
+        relativeOffsetY: 1,
+        text: "jhack",
+      },
     ]);
   }, []);
 
@@ -34,53 +50,76 @@ export default function Home() {
     return h + ":" + m + ":" + s;
   }
 
-  // const images = ["/bart.jpg", "/donk.png", "/himalsmall.gif", "/poorguy.jpg"];
-
-  function Model(props) {
-    const { model, idx } = props;
-    const ref = useRef();
-
-    useFrame(({ clock }) => {
-      ref.current.rotation.y = clock.getElapsedTime() / 2;
-    });
-
-    const x = idx * 3 - 3; // arbitrary, figure out what to do here
-    const y = -1 + model.relativeOffsetY;
-    const gltf = useLoader(GLTFLoader, `/${model.name}/scene.gltf`);
-    return (
-      <mesh position={[x, y, 0]} scale={model.relativeScale} ref={ref}>
-        <primitive object={gltf.scene} />
-      </mesh>
-    );
-  }
-
-  function Himal() {
-    const himal = useLoader(TextureLoader, "/himalsmall.gif");
-    const ref = useRef();
-    useFrame(({ clock }) => {
-      ref.current.rotation.y = clock.getElapsedTime();
-    });
-    return (
-      <mesh position={[0, -2, 0]} ref={ref}>
-        <boxGeometry/>
-        <meshStandardMaterial map={himal} />
-      </mesh>
-    );
-  }
-
   return (
     <main className={styles.main}>
+      <div className={styles.selected}>
+        {selected != null && models[selected].text}
+      </div>
       <div className={styles.time}>{time}</div>
       <div className={styles.grid}>
         <Canvas>
           <ambientLight intensity={0.1} />
           <directionalLight color="white" position={[1, -1, 0.6]} />
           {models.map((model, idx) => (
-            <Model model={model} idx={idx} key={idx} />
+            <Model model={model} idx={idx} key={idx} select={select} />
           ))}
           <Himal />
         </Canvas>
       </div>
     </main>
+  );
+}
+
+function Model(props) {
+  const [hovered, hover] = useState(false);
+  const ref = useRef();
+
+  const { model, idx, select } = props;
+
+  useFrame(({ clock }) => {
+    ref.current.rotation.y = clock.getElapsedTime() / 2;
+  });
+
+  const x = idx * 3 - 3; // arbitrary, figure out what to do here
+  const y = -1 + model.relativeOffsetY;
+  const gltf = useLoader(GLTFLoader, `/${model.name}/scene.gltf`);
+  return (
+    <group>
+      <mesh
+        position={[x, y, 0]}
+        scale={model.relativeScale}
+        ref={ref}
+        onPointerOver={(event) => {
+          event.stopPropagation();
+          hover(true);
+          select(idx);
+        }}
+        onPointerOut={() => {
+          hover(false);
+          select(null);
+        }}
+      >
+        <primitive object={gltf.scene} />
+      </mesh>
+
+      {hovered ? (
+        // <spotLight color="white" position={[x, y, 0]} lookAt={[x, y, 0]} />
+        <pointLight position={[x, y, 1]} />
+      ) : null}
+    </group>
+  );
+}
+
+function Himal() {
+  const himal = useLoader(TextureLoader, "/himalsmall.gif");
+  const ref = useRef();
+  useFrame(({ clock }) => {
+    ref.current.rotation.y = clock.getElapsedTime();
+  });
+  return (
+    <mesh position={[0, -2, 0]} ref={ref}>
+      <boxGeometry />
+      <meshStandardMaterial map={himal} />
+    </mesh>
   );
 }
