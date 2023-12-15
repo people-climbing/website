@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { Vector3 } from "three";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
 import styles from "./page.module.css";
@@ -58,12 +59,17 @@ export default function Home() {
       <div className={styles.time}>{time}</div>
       <div className={styles.grid}>
         <Canvas>
-          <ambientLight intensity={0.1} />
-          <directionalLight color="white" position={[1, -1, 0.6]} />
+          {/* <ambientLight intensity={0.25} /> */}
+          <directionalLight
+            color="white"
+            position={[0, 3, 0.5]}
+            intensity={1}
+          />
           {models.map((model, idx) => (
             <Model model={model} idx={idx} key={idx} select={select} />
           ))}
-          <Himal />
+          {/* <Himal /> */}
+          <MovingSpot />
         </Canvas>
       </div>
     </main>
@@ -71,7 +77,6 @@ export default function Home() {
 }
 
 function Model(props) {
-  const [hovered, hover] = useState(false);
   const ref = useRef();
 
   const { model, idx, select } = props;
@@ -80,6 +85,7 @@ function Model(props) {
     ref.current.rotation.y = clock.getElapsedTime() / 2;
   });
 
+  // use state.viewport from useThree()
   const x = idx * 3 - 3; // arbitrary, figure out what to do here
   const y = -1 + model.relativeOffsetY;
   const gltf = useLoader(GLTFLoader, `/${model.name}/scene.gltf`);
@@ -91,21 +97,14 @@ function Model(props) {
         ref={ref}
         onPointerOver={(event) => {
           event.stopPropagation();
-          hover(true);
           select(idx);
         }}
         onPointerOut={() => {
-          hover(false);
           select(null);
         }}
       >
         <primitive object={gltf.scene} />
       </mesh>
-
-      {hovered ? (
-        // <spotLight color="white" position={[x, y, 0]} lookAt={[x, y, 0]} />
-        <pointLight position={[x, y, 1]} />
-      ) : null}
     </group>
   );
 }
@@ -121,5 +120,34 @@ function Himal() {
       <boxGeometry />
       <meshStandardMaterial map={himal} />
     </mesh>
+  );
+}
+
+function MovingSpot({ vec = new Vector3() }) {
+  const light = useRef();
+  const viewport = useThree((state) => state.viewport);
+  useFrame((state) => {
+    light.current.target.position.lerp(
+      vec.set(
+        (state.pointer.x * viewport.width) / 2,
+        (state.pointer.y * viewport.height) / 2,
+        0
+      ),
+      0.1
+    );
+    light.current.target.updateMatrixWorld();
+  });
+  return (
+    <spotLight
+      castShadow
+      position={[0, -2, 0.5]}
+      ref={light}
+      penumbra={1}
+      // distance={6}
+      // angle={0.35}
+      attenuation={10}
+      anglePower={6}
+      intensity={10}
+    />
   );
 }
