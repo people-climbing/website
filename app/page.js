@@ -10,6 +10,7 @@ export default function Home() {
   const [models, setModels] = useState([]);
   const [selected, select] = useState(null);
   const [showOverlay, toggleOverlay] = useState(false);
+  const [hash, setHash] = useState(null);
 
   useEffect(() => {
     setInterval(() => {
@@ -20,13 +21,15 @@ export default function Home() {
         name: "isaac",
         relativeScale: 0.4,
         relativeOffsetY: 0,
-        text: "daosyn",
+        text: "dance with me",
+        hash: "-MwPIRp8tK0",
       },
       {
         name: "strongbad",
         relativeScale: 1.5,
         relativeOffsetY: 0,
-        text: "ocutor",
+        text: "transparent girl",
+        hash: "xbrkV1KaQwc",
       },
       {
         name: "katamari",
@@ -72,19 +75,22 @@ export default function Home() {
               modelsLength={arr.length}
               select={select}
               toggleOverlay={toggleOverlay}
+              setHash={setHash}
             />
           ))}
           <MovingSpot />
         </Canvas>
       </div>
-      {showOverlay ? <Overlay toggleOverlay={toggleOverlay} /> : null}
+      {showOverlay ? (
+        <Overlay hash={hash} setHash={setHash} toggleOverlay={toggleOverlay} />
+      ) : null}
     </main>
   );
 }
 
 function Model(props) {
   const ref = useRef();
-  const { model, idx, modelsLength, select, toggleOverlay } = props;
+  const { model, idx, modelsLength, select, setHash, toggleOverlay } = props;
   const viewport = useThree((state) => state.viewport);
 
   useFrame(({ clock }) => {
@@ -110,6 +116,7 @@ function Model(props) {
         }}
         onClick={(event) => {
           event.stopPropagation();
+          setHash(model.hash);
           toggleOverlay(true);
         }}
       >
@@ -150,18 +157,28 @@ function MovingSpot({ vec = new Vector3() }) {
 }
 
 function Overlay(props) {
-  console.log("showing overlay");
+  const { hash, setHash, toggleOverlay } = props;
   return (
-    <div onClick={() => props.toggleOverlay(false)} className={styles.overlay}>
-      <iframe
-        width="90%"
-        height="90%"
-        src="https://www.youtube.com/embed/-MwPIRp8tK0?si=JkzWgSVhDMQQ8y49"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-      ></iframe>
+    <div
+      onClick={() => {
+        toggleOverlay(false);
+        setHash(null);
+      }}
+      className={styles.overlay}
+    >
+      {hash ? (
+        <iframe
+          width="75%"
+          height="75%"
+          src={`https://www.youtube.com/embed/${hash}`}
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        />
+      ) : (
+        <p>{"please check back later :^)"}</p>
+      )}
     </div>
   );
 }
