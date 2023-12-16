@@ -116,6 +116,7 @@ function Model(props) {
         }}
         onClick={(event) => {
           event.stopPropagation();
+          select(idx);
           setHash(model.hash);
           toggleOverlay(true);
         }}
