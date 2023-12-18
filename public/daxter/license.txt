@@ -1,0 +1,11 @@
+Model Information:
+* title:	[Ripped Asset] Daxter
+* source:	https://sketchfab.com/3d-models/ripped-asset-daxter-2542136672b8448eb0b3fb265979afc9
+* author:	ojj09874 (https://sketchfab.com/ojj09874)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "[Ripped Asset] Daxter" (https://sketchfab.com/3d-models/ripped-asset-daxter-2542136672b8448eb0b3fb265979afc9) by ojj09874 (https://sketchfab.com/ojj09874) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

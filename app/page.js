@@ -37,6 +37,12 @@ export default function Home() {
         relativeOffsetY: 1,
         text: "jhack",
       },
+      {
+        name: "daxter",
+        relativeScale: 0.045,
+        relativeOffsetY: 0,
+        text: "kaisle",
+      },
     ]);
   }, []);
 
@@ -97,8 +103,9 @@ function Model(props) {
     ref.current.rotation.y = clock.getElapsedTime() / 2;
   });
 
-  const x =
-    idx * (viewport.width / modelsLength) - viewport.width / modelsLength;
+  const gapWidth = viewport.width / (modelsLength + 1);
+  const x = (idx + 1) * gapWidth - viewport.width / 2;
+
   const y = -1 + model.relativeOffsetY;
   const gltf = useLoader(GLTFLoader, `/${model.name}/scene.gltf`);
   return (
