@@ -4,9 +4,10 @@ import { Vector3 } from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   AsciiRenderer,
+  CameraControls,
+  Fisheye,
   Gltf,
   KeyboardControls,
-  OrthographicCamera,
   PerspectiveCamera,
   Sparkles,
   Text3D,
@@ -33,13 +34,13 @@ export default function Home() {
         text: "dance with me",
         hash: "-MwPIRp8tK0",
       },
-      {
-        name: "strongbad",
-        relativeScale: 1.5,
-        relativeOffsetY: 0,
-        text: "transparent girl",
-        hash: "xbrkV1KaQwc",
-      },
+      // {
+      //   name: "strongbad",
+      //   relativeScale: 1.5,
+      //   relativeOffsetY: 0,
+      //   text: "transparent girl",
+      //   hash: "xbrkV1KaQwc",
+      // },
       {
         name: "katamari",
         relativeScale: 0.25,
@@ -85,7 +86,8 @@ export default function Home() {
           ]}
         >
           <Canvas>
-            <OrthographicCamera>
+            <Fisheye zoom={0}>
+              <CameraControls />
               <Background />
               <directionalLight
                 color="white"
@@ -104,7 +106,8 @@ export default function Home() {
                 />
               ))}
               <MovingSpot />
-            </OrthographicCamera>
+              <PerspectiveCamera makeDefault position={[0, 0, 2.5]} />
+            </Fisheye>
           </Canvas>
         </KeyboardControls>
       </div>
