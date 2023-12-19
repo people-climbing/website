@@ -1,8 +1,17 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Vector3 } from "three";
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import {
+  AsciiRenderer,
+  Gltf,
+  KeyboardControls,
+  OrthographicCamera,
+  PerspectiveCamera,
+  Sparkles,
+  Text3D,
+  useKeyboardControls,
+} from "@react-three/drei";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -67,25 +76,37 @@ export default function Home() {
       </div>
       <div className={styles.time}>{time}</div>
       <div className={styles.grid}>
-        <Canvas>
-          <directionalLight
-            color="white"
-            position={[0, 2, 0.5]}
-            intensity={1}
-          />
-          {models.map((model, idx, arr) => (
-            <Model
-              model={model}
-              idx={idx}
-              key={idx}
-              modelsLength={arr.length}
-              select={select}
-              toggleOverlay={toggleOverlay}
-              setHash={setHash}
-            />
-          ))}
-          <MovingSpot />
-        </Canvas>
+        <KeyboardControls
+          map={[
+            { name: "up", keys: ["ArrowUp"] },
+            { name: "down", keys: ["ArrowDown"] },
+            { name: "left", keys: ["ArrowLeft"] },
+            { name: "right", keys: ["ArrowRight"] },
+          ]}
+        >
+          <Canvas>
+            <OrthographicCamera>
+              <Background />
+              <directionalLight
+                color="white"
+                position={[0, 2, 0.5]}
+                intensity={1}
+              />
+              {models.map((model, idx, arr) => (
+                <Model
+                  model={model}
+                  idx={idx}
+                  key={idx}
+                  modelsLength={arr.length}
+                  select={select}
+                  toggleOverlay={toggleOverlay}
+                  setHash={setHash}
+                />
+              ))}
+              <MovingSpot />
+            </OrthographicCamera>
+          </Canvas>
+        </KeyboardControls>
       </div>
       {showOverlay ? (
         <Overlay hash={hash} setHash={setHash} toggleOverlay={toggleOverlay} />
@@ -94,59 +115,84 @@ export default function Home() {
   );
 }
 
+function Background() {
+  const viewport = useThree((state) => state.viewport);
+  return (
+    <Sparkles
+      size={5}
+      color={"#a6cedd"}
+      opacity={0.5}
+      scale={[viewport.width, viewport.height, -5]}
+      count={700}
+      speed={0.2}
+    />
+  );
+}
+
 function Model(props) {
-  const ref = useRef();
+  const gltf = useRef();
   const { model, idx, modelsLength, select, setHash, toggleOverlay } = props;
   const viewport = useThree((state) => state.viewport);
 
   useFrame(({ clock }) => {
-    ref.current.rotation.y = clock.getElapsedTime() / 2;
+    gltf.current.rotation.y = clock.getElapsedTime() / 2;
   });
 
   const gapWidth = viewport.width / (modelsLength + 1);
   const x = (idx + 1) * gapWidth - viewport.width / 2;
 
   const y = -1 + model.relativeOffsetY;
-  const gltf = useLoader(GLTFLoader, `/${model.name}/scene.gltf`);
   return (
-    <group>
-      <mesh
-        position={[x, y, 0]}
-        scale={model.relativeScale}
-        ref={ref}
-        onPointerOver={(event) => {
-          event.stopPropagation();
-          select(idx);
-        }}
-        onPointerOut={() => {
-          select(null);
-        }}
-        onClick={(event) => {
-          event.stopPropagation();
-          select(idx);
-          setHash(model.hash);
-          toggleOverlay(true);
-        }}
-      >
-        <primitive object={gltf.scene} />
-      </mesh>
-    </group>
+    <Gltf
+      src={`/${model.name}/scene.gltf`}
+      position={[x, y, 0]}
+      scale={model.relativeScale}
+      ref={gltf}
+      onPointerOver={(event) => {
+        event.stopPropagation();
+        select(idx);
+      }}
+      onPointerOut={() => {
+        select(null);
+      }}
+      onClick={(event) => {
+        event.stopPropagation();
+        select(idx);
+        setHash(model.hash);
+        toggleOverlay(true);
+      }}
+    />
   );
 }
 
-function MovingSpot({ vec = new Vector3() }) {
+function MovingSpot() {
   const light = useRef();
   const viewport = useThree((state) => state.viewport);
-  // add keyboard conditional
+  const [, get] = useKeyboardControls();
+
+  const vec = new Vector3();
+  const { up, down, left, right } = get();
   useFrame((state) => {
-    light.current.target.position.lerp(
+    if (up) {
+      // do nothing for now
+    } else if (down) {
+      // do nothing for now
+    } else if (left) {
+      console.log("going left");
+      vec.set(light.current.target.position.x - viewport.width / 3, 0, 0); // 3 is modelsLength
+    } else if (right) {
+      console.log("going right");
+      vec.set(light.current.target.position.x + viewport.width / 3, 0, 0); // 3 is modelsLength
+    } else {
+      // console.log("checking mouse");
+      // no keyboard action, check for mouse
       vec.set(
         (state.pointer.x * viewport.width) / 2,
         (state.pointer.y * viewport.height) / 2,
         0
-      ),
-      0.1
-    );
+      );
+    }
+    light.current.target.position.lerp(vec, 0.1);
     light.current.target.updateMatrixWorld();
   });
   return (
@@ -159,8 +205,25 @@ function MovingSpot({ vec = new Vector3() }) {
       angle={0.45}
       attenuation={10}
       // anglePower={7}
-      intensity={10}
+      intensity={30}
     />
+  );
+}
+
+function ScrollingBannerText() {
+  const text = useRef();
+
+  useFrame(() => {
+    text.current.position.x -= 0.1;
+    if (text.current.position.x < -40) {
+      text.current.position.x = 10;
+    }
+  });
+
+  return (
+    <Text3D ref={text} font={"/emotion-engine.json"} scale={2}>
+      {"please check back later"}
+    </Text3D>
   );
 }
 
@@ -185,7 +248,16 @@ function Overlay(props) {
           allowfullscreen
         />
       ) : (
-        <p>{"please check back later :^)"}</p>
+        <Canvas>
+          <color attach="background" args={["black"]} />
+          <directionalLight
+            color="white"
+            position={[-5, -5, 5]}
+            intensity={10}
+          />
+          <ScrollingBannerText />
+          <AsciiRenderer fgColor="white" bgColor="transparent" />
+        </Canvas>
       )}
     </div>
   );
