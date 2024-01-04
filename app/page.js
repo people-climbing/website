@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Vector3 } from "three";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import {
   AsciiRenderer,
   CameraControls,
   Fisheye,
-  Gltf,
   KeyboardControls,
+  OrthographicCamera,
   PerspectiveCamera,
   Sparkles,
   Text3D,
@@ -34,13 +35,13 @@ export default function Home() {
         text: "dance with me",
         hash: "-MwPIRp8tK0",
       },
-      // {
-      //   name: "strongbad",
-      //   relativeScale: 1.5,
-      //   relativeOffsetY: 0,
-      //   text: "transparent girl",
-      //   hash: "xbrkV1KaQwc",
-      // },
+      {
+        name: "strongbad",
+        relativeScale: 1.5,
+        relativeOffsetY: 0,
+        text: "transparent girl",
+        hash: "xbrkV1KaQwc",
+      },
       {
         name: "katamari",
         relativeScale: 0.25,
@@ -86,28 +87,28 @@ export default function Home() {
           ]}
         >
           <Canvas>
-            <Fisheye zoom={0}>
-              <CameraControls />
-              <Background />
-              <directionalLight
-                color="white"
-                position={[0, 2, 0.5]}
-                intensity={1}
+            {/* <Fisheye zoom={0}> */}
+            {/* <CameraControls /> */}
+            <Background />
+            <directionalLight
+              color="white"
+              position={[0, 2, 0.5]}
+              intensity={1}
+            />
+            {models.map((model, idx, arr) => (
+              <Model
+                model={model}
+                idx={idx}
+                key={idx}
+                modelsLength={arr.length}
+                select={select}
+                toggleOverlay={toggleOverlay}
+                setHash={setHash}
               />
-              {models.map((model, idx, arr) => (
-                <Model
-                  model={model}
-                  idx={idx}
-                  key={idx}
-                  modelsLength={arr.length}
-                  select={select}
-                  toggleOverlay={toggleOverlay}
-                  setHash={setHash}
-                />
-              ))}
-              <MovingSpot />
-              <PerspectiveCamera makeDefault position={[0, 0, 2.5]} />
-            </Fisheye>
+            ))}
+            <MovingSpot />
+            <OrthographicCamera makeDefault position={[0, 0, 5]} />
+            {/* </Fisheye> */}
           </Canvas>
         </KeyboardControls>
       </div>
@@ -133,39 +134,42 @@ function Background() {
 }
 
 function Model(props) {
-  const gltf = useRef();
+  const ref = useRef();
   const { model, idx, modelsLength, select, setHash, toggleOverlay } = props;
   const viewport = useThree((state) => state.viewport);
 
   useFrame(({ clock }) => {
-    gltf.current.rotation.y = clock.getElapsedTime() / 2;
+    ref.current.rotation.y = clock.getElapsedTime() / 2;
   });
 
   const gapWidth = viewport.width / (modelsLength + 1);
   const x = (idx + 1) * gapWidth - viewport.width / 2;
 
   const y = -1 + model.relativeOffsetY;
+  const gltf = useLoader(GLTFLoader, `/${model.name}/scene.gltf`);
   return (
-    <Gltf
-      src={`/${model.name}/scene.gltf`}
-      position={[x, y, 0]}
-      scale={model.relativeScale}
-      ref={gltf}
-      onPointerOver={(event) => {
-        event.stopPropagation();
-        select(idx);
-      }}
-      onPointerOut={() => {
-        select(null);
-      }}
-      onClick={(event) => {
-        event.stopPropagation();
-        select(idx);
-        setHash(model.hash);
-        toggleOverlay(true);
-      }}
-    />
-  );
+    <group>
+      <mesh
+        position={[x, y, 0]}
+        scale={model.relativeScale}
+        ref={ref}
+        onPointerOver={(event) => {
+          event.stopPropagation();
+          select(idx);
+        }}
+        onPointerOut={() => {
+          select(null);
+        }}
+        onClick={(event) => {
+          event.stopPropagation();
+          select(idx);
+          setHash(model.hash);
+          toggleOverlay(true);
+        }}
+      >
+        <primitive object={gltf.scene} />
+      </mesh>
+    </group>);
 }
 
 function MovingSpot() {
