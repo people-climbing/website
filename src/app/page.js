@@ -1,19 +1,19 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Vector3 } from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import {
   AsciiRenderer,
-  CameraControls,
-  Fisheye,
   KeyboardControls,
   OrthographicCamera,
-  PerspectiveCamera,
-  Sparkles,
   Text3D,
   useKeyboardControls,
 } from "@react-three/drei";
+
+import modelsConfig from "@/config/models";
+import Background from "@/components/Background";
+import Model from "@/components/Model";
+
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -27,34 +27,7 @@ export default function Home() {
     setInterval(() => {
       setTime(getTime());
     }, 1000);
-    setModels([
-      {
-        name: "isaac",
-        relativeScale: 0.4,
-        relativeOffsetY: 0,
-        text: "dance with me",
-        hash: "-MwPIRp8tK0",
-      },
-      {
-        name: "strongbad",
-        relativeScale: 1.5,
-        relativeOffsetY: 0,
-        text: "transparent girl",
-        hash: "xbrkV1KaQwc",
-      },
-      {
-        name: "katamari",
-        relativeScale: 0.25,
-        relativeOffsetY: 1,
-        text: "jhack",
-      },
-      {
-        name: "daxter",
-        relativeScale: 0.045,
-        relativeOffsetY: 0,
-        text: "kaisle",
-      },
-    ]);
+    setModels(modelsConfig);
   }, []);
 
   function getTime() {
@@ -107,7 +80,7 @@ export default function Home() {
               />
             ))}
             <MovingSpot />
-            <OrthographicCamera makeDefault position={[0, 0, 5]} />
+            <Camera />
             {/* </Fisheye> */}
           </Canvas>
         </KeyboardControls>
@@ -119,57 +92,22 @@ export default function Home() {
   );
 }
 
-function Background() {
+function Camera() {
   const viewport = useThree((state) => state.viewport);
   return (
-    <Sparkles
-      size={5}
-      color={"#a6cedd"}
-      opacity={0.5}
-      scale={[viewport.width, viewport.height, -5]}
-      count={700}
-      speed={0.2}
+    <OrthographicCamera
+      makeDefault
+      args={[
+        viewport.width / -2,
+        viewport.width / 2,
+        viewport.height / 2,
+        viewport.height / -2,
+        0.1,
+        1000,
+      ]}
+      position={[0, 0, 100]}
     />
   );
-}
-
-function Model(props) {
-  const ref = useRef();
-  const { model, idx, modelsLength, select, setHash, toggleOverlay } = props;
-  const viewport = useThree((state) => state.viewport);
-
-  useFrame(({ clock }) => {
-    ref.current.rotation.y = clock.getElapsedTime() / 2;
-  });
-
-  const gapWidth = viewport.width / (modelsLength + 1);
-  const x = (idx + 1) * gapWidth - viewport.width / 2;
-
-  const y = -1 + model.relativeOffsetY;
-  const gltf = useLoader(GLTFLoader, `/${model.name}/scene.gltf`);
-  return (
-    <group>
-      <mesh
-        position={[x, y, 0]}
-        scale={model.relativeScale}
-        ref={ref}
-        onPointerOver={(event) => {
-          event.stopPropagation();
-          select(idx);
-        }}
-        onPointerOut={() => {
-          select(null);
-        }}
-        onClick={(event) => {
-          event.stopPropagation();
-          select(idx);
-          setHash(model.hash);
-          toggleOverlay(true);
-        }}
-      >
-        <primitive object={gltf.scene} />
-      </mesh>
-    </group>);
 }
 
 function MovingSpot() {
