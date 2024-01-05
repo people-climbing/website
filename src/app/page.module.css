@@ -1,5 +1,5 @@
 .main {
-  /* background-image: url("/bg.gif"); */
+  background-image: url("/bg.gif");
   background-color: #000003;
   display: flex;
   padding: 6rem;

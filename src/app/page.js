@@ -1,17 +1,17 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Vector3 } from "three";
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   AsciiRenderer,
   KeyboardControls,
-  OrthographicCamera,
   Text3D,
   useKeyboardControls,
 } from "@react-three/drei";
 
 import modelsConfig from "@/config/models";
 import Background from "@/components/Background";
+import Camera from "@/components/Camera";
 import Model from "@/components/Model";
 
 import styles from "./page.module.css";
@@ -62,7 +62,7 @@ export default function Home() {
           <Canvas>
             {/* <Fisheye zoom={0}> */}
             {/* <CameraControls /> */}
-            <Background />
+            {/* <Background /> */}
             <directionalLight
               color="white"
               position={[0, 2, 0.5]}
@@ -92,23 +92,6 @@ export default function Home() {
   );
 }
 
-function Camera() {
-  const viewport = useThree((state) => state.viewport);
-  return (
-    <OrthographicCamera
-      makeDefault
-      args={[
-        viewport.width / -2,
-        viewport.width / 2,
-        viewport.height / 2,
-        viewport.height / -2,
-        0.1,
-        1000,
-      ]}
-      position={[0, 0, 100]}
-    />
-  );
-}
 
 function MovingSpot() {
   const light = useRef();
