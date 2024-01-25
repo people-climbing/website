@@ -9,6 +9,7 @@ export default function Model({
   select,
   setHash,
   toggleOverlay,
+  isSelected,
 }) {
   const ref = useRef();
   const viewport = useThree((state) => state.viewport);
@@ -44,6 +45,17 @@ export default function Model({
       >
         <primitive object={gltf.scene} />
       </mesh>
+      {isSelected ? (
+        <mesh position={[x, y - 15 - model.relativeOffsetY, 0]}>
+          <circleGeometry args={[25, 64]} />
+          <meshStandardMaterial
+            color={"white"}
+            emissive={"white"}
+            emissiveIntensity={10}
+            toneMapped={false}
+          />
+        </mesh>
+      ) : null}
     </group>
   );
 }

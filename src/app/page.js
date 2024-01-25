@@ -1,20 +1,26 @@
 "use client";
+import * as THREE from "three";
 import { useEffect, useRef, useState } from "react";
-import { Vector3 } from "three";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, extend, useFrame } from "@react-three/fiber";
+import { AsciiRenderer, KeyboardControls, Text3D } from "@react-three/drei";
+import { Effects } from "@react-three/drei";
 import {
-  AsciiRenderer,
-  KeyboardControls,
-  Text3D,
-  useKeyboardControls,
-} from "@react-three/drei";
+  EffectComposer,
+  Bloom,
+  ToneMapping,
+} from "@react-three/postprocessing";
+import { ToneMappingMode } from "postprocessing";
+import { UnrealBloomPass } from "three-stdlib";
+import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass";
 
 import modelsConfig from "@/config/models";
-// import Background from "@/components/Background";
+import Background from "@/components/Background";
 import Camera from "@/components/Camera";
 import Model from "@/components/Model";
 
 import styles from "./page.module.css";
+
+extend({ UnrealBloomPass, OutputPass });
 
 export default function Home() {
   const [time, setTime] = useState(null);
@@ -60,7 +66,11 @@ export default function Home() {
           ]}
         >
           <Canvas>
-            {/* <Background /> */}
+            <Effects disableGamma>
+              <unrealBloomPass threshold={1} strength={0.2} radius={0} />
+              <outputPass args={[THREE.ACESFilmicToneMapping]} />
+            </Effects>
+            <Background />
             <directionalLight
               color="white"
               position={[0, 2, 0.5]}
@@ -75,9 +85,9 @@ export default function Home() {
                 select={select}
                 toggleOverlay={toggleOverlay}
                 setHash={setHash}
+                isSelected={selected === idx}
               />
             ))}
-            <MovingSpot />
             <Camera />
           </Canvas>
         </KeyboardControls>
@@ -86,52 +96,6 @@ export default function Home() {
         <Overlay hash={hash} setHash={setHash} toggleOverlay={toggleOverlay} />
       ) : null}
     </main>
-  );
-}
-
-
-function MovingSpot() {
-  const light = useRef();
-  const viewport = useThree((state) => state.viewport);
-  const [, get] = useKeyboardControls();
-
-  const vec = new Vector3();
-  const { up, down, left, right } = get();
-  useFrame((state) => {
-    if (up) {
-      // do nothing for now
-    } else if (down) {
-      // do nothing for now
-    } else if (left) {
-      console.log("going left");
-      vec.set(light.current.target.position.x - viewport.width / 3, 0, 0); // 3 is modelsLength
-    } else if (right) {
-      console.log("going right");
-      vec.set(light.current.target.position.x + viewport.width / 3, 0, 0); // 3 is modelsLength
-    } else {
-      // console.log("checking mouse");
-      // no keyboard action, check for mouse
-      vec.set(
-        (state.pointer.x * viewport.width) / 2,
-        (state.pointer.y * viewport.height) / 2,
-        0
-      );
-    }
-    light.current.target.position.lerp(vec, 0.1);
-    light.current.target.updateMatrixWorld();
-  });
-  return (
-    <spotLight
-      castShadow
-      position={[0, 0, 3]}
-      ref={light}
-      penumbra={1}
-      distance={10}
-      angle={0.45}
-      attenuation={10}
-      // anglePower={7}
-      intensity={30}
-    />
   );
 }
 
@@ -167,7 +131,7 @@ function Overlay(props) {
           width="75%"
           height="75%"
           src={`https://www.youtube.com/embed/${hash}`}
-          title="YouTube video player"
+          title="people"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
