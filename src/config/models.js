@@ -13,14 +13,15 @@ const models = [
     name: "strongbad",
     relativeScale: 150,
     relativeOffsetY: 0,
-    text: "transparent girl",
-    hash: "xbrkV1KaQwc",
+    text: "birthday",
+    hash: "1H5T4XF3Wis",
   },
   {
     name: "katamari",
     relativeScale: 25,
     relativeOffsetY: 100,
-    text: "jhack",
+    text: "transparent girl",
+    hash: "xbrkV1KaQwc",
   },
   {
     name: "daxter",
