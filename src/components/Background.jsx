@@ -7,10 +7,10 @@ export default function Background() {
     <Stars
       count={3000}
       depth={500}
-      radius={10}
+      radius={20}
       factor={.1}
       saturation={100}
-      speed={1}
+      speed={2}
       fade
     />
   );
