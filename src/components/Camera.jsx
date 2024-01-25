@@ -14,7 +14,8 @@ export default function Camera() {
         0.1,
         1000,
       ]}
-      position={[0, 0, 100]}
+      position={[0, 150, 150]}
+      rotation={[-Math.PI / 4, 0, 0]}
     />
   );
 }

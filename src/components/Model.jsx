@@ -25,7 +25,7 @@ export default function Model({
   return (
     <group>
       <mesh
-        position={[x, y, -4]}
+        position={[x, y, 0]}
         scale={model.relativeScale}
         ref={ref}
         onPointerOver={(event) => {

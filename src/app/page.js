@@ -10,7 +10,7 @@ import {
 } from "@react-three/drei";
 
 import modelsConfig from "@/config/models";
-import Background from "@/components/Background";
+// import Background from "@/components/Background";
 import Camera from "@/components/Camera";
 import Model from "@/components/Model";
 
@@ -60,8 +60,6 @@ export default function Home() {
           ]}
         >
           <Canvas>
-            {/* <Fisheye zoom={0}> */}
-            {/* <CameraControls /> */}
             {/* <Background /> */}
             <directionalLight
               color="white"
@@ -81,7 +79,6 @@ export default function Home() {
             ))}
             <MovingSpot />
             <Camera />
-            {/* </Fisheye> */}
           </Canvas>
         </KeyboardControls>
       </div>
