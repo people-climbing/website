@@ -49,9 +49,9 @@ export default function Model({
         <mesh position={[x, y - 15 - model.relativeOffsetY, 0]}>
           <circleGeometry args={[25, 64]} />
           <meshStandardMaterial
-            color={"white"}
-            emissive={"white"}
-            emissiveIntensity={25}
+            color={"skyblue"}
+            emissive={"skyblue"}
+            emissiveIntensity={10}
             toneMapped={false}
           />
         </mesh>

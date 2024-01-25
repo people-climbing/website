@@ -72,7 +72,7 @@ export default function Home() {
               <unrealBloomPass threshold={1} strength={0.2} radius={0} />
               <outputPass args={[THREE.ACESFilmicToneMapping]} />
             </Effects>
-            <Background />
+            {/* <Background /> */}
             <directionalLight
               color="white"
               position={[0, 2, 0.5]}
