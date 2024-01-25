@@ -2,14 +2,12 @@
 import * as THREE from "three";
 import { useEffect, useRef, useState } from "react";
 import { Canvas, extend, useFrame } from "@react-three/fiber";
-import { AsciiRenderer, KeyboardControls, Text3D } from "@react-three/drei";
-import { Effects } from "@react-three/drei";
 import {
-  EffectComposer,
-  Bloom,
-  ToneMapping,
-} from "@react-three/postprocessing";
-import { ToneMappingMode } from "postprocessing";
+  AsciiRenderer,
+  Effects,
+  KeyboardControls,
+  Text3D,
+} from "@react-three/drei";
 import { UnrealBloomPass } from "three-stdlib";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass";
 
@@ -36,6 +34,10 @@ export default function Home() {
     setModels(modelsConfig);
   }, []);
 
+  useEffect(() => {
+    document.body.style.cursor = selected !== null ? "pointer" : "auto";
+  }, [selected]);
+
   function getTime() {
     function addZero(i) {
       if (i < 10) {
@@ -49,7 +51,7 @@ export default function Home() {
     const s = addZero(d.getSeconds());
     return h + ":" + m + ":" + s;
   }
-
+  
   return (
     <main className={styles.main}>
       <div className={styles.selected}>
@@ -76,12 +78,12 @@ export default function Home() {
               position={[0, 2, 0.5]}
               intensity={1}
             />
-            {models.map((model, idx, arr) => (
+            {models.map((model, idx) => (
               <Model
                 model={model}
                 idx={idx}
                 key={idx}
-                modelsLength={arr.length}
+                gridWidth={4}
                 select={select}
                 toggleOverlay={toggleOverlay}
                 setHash={setHash}
@@ -98,6 +100,8 @@ export default function Home() {
     </main>
   );
 }
+
+// refactor these into separate components later
 
 function ScrollingBannerText() {
   const text = useRef();

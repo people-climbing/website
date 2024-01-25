@@ -5,7 +5,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
 export default function Model({
   model,
   idx,
-  modelsLength,
+  gridWidth,
   select,
   setHash,
   toggleOverlay,
@@ -18,10 +18,10 @@ export default function Model({
     ref.current.rotation.y = clock.getElapsedTime() / 2;
   });
 
-  const gapWidth = viewport.width / (modelsLength + 1);
-  const x = (idx + 1) * gapWidth - viewport.width / 2;
+  const gapWidth = viewport.width / (gridWidth + 1);
+  const x = (model.column + 1) * gapWidth - viewport.width / 2;
 
-  const y = -1 + model.relativeOffsetY;
+  const y = 200 + model.relativeOffsetY - model.row * 200;
   const gltf = useLoader(GLTFLoader, `/models/${model.name}/scene.gltf`);
   return (
     <group>
@@ -51,7 +51,7 @@ export default function Model({
           <meshStandardMaterial
             color={"white"}
             emissive={"white"}
-            emissiveIntensity={10}
+            emissiveIntensity={25}
             toneMapped={false}
           />
         </mesh>
