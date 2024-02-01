@@ -1,6 +1,4 @@
 .main {
-  background-image: url("/bg.jpg");
-  background-color: #000024;
   display: flex;
   padding: 6rem;
   min-height: 100vh;
@@ -51,4 +49,42 @@
   align-items: center;
   display: flex;
   justify-content: center;
+}
+
+.loading {
+  background-image: url("/ppl.gif");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.loader {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+  margin: 15px auto;
+  position: relative;
+  color: #fff;
+  box-sizing: border-box;
+  animation: animloader 2s linear infinite;
+  left: 50px;
+}
+
+@keyframes animloader {
+  0% {
+    box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
+  }
+  25% {
+    box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 2px;
+  }
+  50% {
+    box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 2px, -38px 0 0 -2px;
+  }
+  75% {
+    box-shadow: 14px 0 0 2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
+  }
+  100% {
+    box-shadow: 14px 0 0 -2px, 38px 0 0 2px, -14px 0 0 -2px, -38px 0 0 -2px;
+  }
 }

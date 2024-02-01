@@ -7,6 +7,7 @@ import {
   Effects,
   KeyboardControls,
   Text3D,
+  useProgress,
 } from "@react-three/drei";
 import { UnrealBloomPass } from "three-stdlib";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass";
@@ -17,6 +18,7 @@ import Camera from "@/components/Camera";
 import Model from "@/components/Model";
 
 import styles from "./page.module.css";
+import { Suspense } from "react";
 
 extend({ UnrealBloomPass, OutputPass });
 
@@ -26,6 +28,7 @@ export default function Home() {
   const [selected, select] = useState(null);
   const [showOverlay, toggleOverlay] = useState(false);
   const [hash, setHash] = useState(null);
+  const { progress } = useProgress();
 
   useEffect(() => {
     setInterval(() => {
@@ -51,28 +54,32 @@ export default function Home() {
     const s = addZero(d.getSeconds());
     return h + ":" + m + ":" + s;
   }
-  
+
   return (
-    <main className={styles.main}>
+    <main
+      className={`${styles.main} ${progress === 100 ? "" : styles.loading}`}
+    >
       <div className={styles.selected}>
+        {progress !== 100 ? <span className={styles.loader} /> : null}
         {selected != null && models[selected].text}
       </div>
-      <div className={styles.time}>{time}</div>
+      {progress === 100 ? <div className={styles.time}>{time}</div> : null}
       <div className={styles.grid}>
-        <KeyboardControls
+        {/* <KeyboardControls
           map={[
             { name: "up", keys: ["ArrowUp"] },
             { name: "down", keys: ["ArrowDown"] },
             { name: "left", keys: ["ArrowLeft"] },
             { name: "right", keys: ["ArrowRight"] },
           ]}
-        >
-          <Canvas>
+        > */}
+        <Canvas>
+          <Suspense fallback={null}>
             <Effects disableGamma>
               <unrealBloomPass threshold={1} strength={0.2} radius={0} />
               <outputPass args={[THREE.ACESFilmicToneMapping]} />
             </Effects>
-            {/* <Background /> */}
+            <Background />
             <directionalLight
               color="white"
               position={[0, 2, 0.5]}
@@ -91,8 +98,9 @@ export default function Home() {
               />
             ))}
             <Camera />
-          </Canvas>
-        </KeyboardControls>
+          </Suspense>
+        </Canvas>
+        {/* </KeyboardControls> */}
       </div>
       {showOverlay ? (
         <Overlay hash={hash} setHash={setHash} toggleOverlay={toggleOverlay} />
