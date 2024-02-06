@@ -1,0 +1,11 @@
+Model Information:
+* title:	Fujifilm X-T2 camera
+* source:	https://sketchfab.com/3d-models/fujifilm-x-t2-camera-c9782122f2844529b35ff49324a214bd
+* author:	Sander_Casier (https://sketchfab.com/Sander_Casier)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Fujifilm X-T2 camera" (https://sketchfab.com/3d-models/fujifilm-x-t2-camera-c9782122f2844529b35ff49324a214bd) by Sander_Casier (https://sketchfab.com/Sander_Casier) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

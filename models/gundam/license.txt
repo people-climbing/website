@@ -1,0 +1,11 @@
+Model Information:
+* title:	Gundam
+* source:	https://sketchfab.com/3d-models/gundam-64c7339f6b8a4c58bfa090956e291fc2
+* author:	TK3000 (https://sketchfab.com/TK3000)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Gundam" (https://sketchfab.com/3d-models/gundam-64c7339f6b8a4c58bfa090956e291fc2) by TK3000 (https://sketchfab.com/TK3000) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
