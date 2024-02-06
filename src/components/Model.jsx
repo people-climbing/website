@@ -15,7 +15,7 @@ export default function Model({
   const viewport = useThree((state) => state.viewport);
 
   useFrame(({ clock }) => {
-    ref.current.rotation.y = clock.getElapsedTime() / 2;
+    ref.current.rotation.y = -clock.getElapsedTime() / 2;
   });
 
   const gapWidth = viewport.width / (gridWidth + 1);

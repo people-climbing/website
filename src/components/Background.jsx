@@ -1,10 +1,17 @@
 import { useThree } from "@react-three/fiber";
-import { Backdrop, Environment, Stars } from "@react-three/drei";
+import { Backdrop, Environment, Grid, Stars } from "@react-three/drei";
 
 export default function Background() {
   const viewport = useThree((state) => state.viewport);
   return (
     <group>
+      {/* <Grid
+        position={[0, -0.01, 0]}
+        args={[viewport.width*500, viewport.height*500]}
+        cellColor={"#6f6f6f"}
+        sectionColor={'#9d4b4b'}
+        infiniteGrid
+      /> */}
       <color attach="background" args={[0x000034]} />
       <Stars
         count={3000}

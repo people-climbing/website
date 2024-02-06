@@ -60,7 +60,6 @@ export default function Home() {
       className={`${styles.main} ${progress === 100 ? "" : styles.loading}`}
     >
       <div className={styles.selected}>
-        {progress !== 100 ? <span className={styles.loader} /> : null}
         {selected != null && models[selected].text}
       </div>
       {progress === 100 ? <div className={styles.time}>{time}</div> : null}
