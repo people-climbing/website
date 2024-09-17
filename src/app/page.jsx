@@ -5,7 +5,6 @@ import { Canvas, extend, useFrame } from "@react-three/fiber";
 import {
   AsciiRenderer,
   Effects,
-  KeyboardControls,
   Text3D,
   useProgress,
 } from "@react-three/drei";
