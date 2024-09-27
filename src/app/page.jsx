@@ -2,12 +2,7 @@
 import * as THREE from "three";
 import { useEffect, useRef, useState } from "react";
 import { Canvas, extend, useFrame } from "@react-three/fiber";
-import {
-  AsciiRenderer,
-  Effects,
-  Text3D,
-  useProgress,
-} from "@react-three/drei";
+import { AsciiRenderer, Effects, Text3D, useProgress } from "@react-three/drei";
 import { UnrealBloomPass } from "three-stdlib";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass";
 

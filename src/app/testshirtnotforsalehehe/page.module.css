@@ -1,27 +1,36 @@
-.container {
+@media screen and (min-width: 1080px) {
+  .container {
     display: flex;
     justify-content: space-between;
+  }
 }
 
-.container>div {
-    width: 50%;
+.container > div {
+  width: 50%;
 }
 
 .option {
-    cursor: pointer;
-    padding: 5px;
-    margin: 5px;
-    border: 1px solid white;
+  cursor: pointer;
+  padding: 5px;
+  /* margin: 10px; */
+  border: 1px solid white;
 }
 
 .selected {
-    border: 3px solid white;
+  border: 3px solid white;
 }
 
 .image {
-    width: 100%;
+  width: 100%;
 }
 
 /* img {
     width: 100%;
 } */
+
+.image-container {
+}
+
+.info-container {
+  margin: 50px;
+}
