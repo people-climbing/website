@@ -115,9 +115,7 @@ export default function ShirtPage() {
       </div>
       <div className={styles["info-container"]}>
         <h1>$35</h1>
-        <h2>headphones tee</h2>
-        <br />
-        <p>this is a shirt. you get what you get. to be determined.</p>
+        <h2>connected shirt</h2>
         <br />
         <p>
           this is a presale item. items will go into production after two weeks
@@ -125,7 +123,7 @@ export default function ShirtPage() {
         </p>
         <br />
         <h2>sizing info</h2>
-        <p>t-shirt printed on a something something blank</p>
+        <p>printed on a comfort colors 1717 heavyweight tee</p>
         <br />
         <h2>size</h2>
         {sizeButton("small")}
