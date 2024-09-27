@@ -24,11 +24,13 @@
   width: 100%;
 }
 
-/* img {
-    width: 100%;
-} */
-
 .image-container {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.image-container > a > img {
+  max-width: 90%;
 }
 
 .info-container {

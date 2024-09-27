@@ -6,15 +6,13 @@ import styles from "./page.module.css";
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import "photoswipe/style.css";
 
-const PUBLIC_KEY =
-  "pk_test_51PzVChGRGs9yWeb5ns6QCqnpB7XGBzMuDsnlbGIZi7fM2lVAByv0aDxdz5cOkvhCLm2FB5exuEheqkpy3lr6ZFwW00bLOeGqNT";
-const stripePromise = loadStripe(PUBLIC_KEY);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
 
 const priceMap = {
-  small: "price_1PzkWqGRGs9yWeb5ndwpkIfT",
-  medium: "price_1PzkWqGRGs9yWeb5ndwpkIfT",
-  large: "price_1PzkWqGRGs9yWeb5ndwpkIfT",
-  xlarge: "price_1PzkWqGRGs9yWeb5ndwpkIfT",
+  small: process.env.NEXT_PUBLIC_S_SHIRT_PRICE_ID,
+  medium: process.env.NEXT_PUBLIC_M_SHIRT_PRICE_ID,
+  large: process.env.NEXT_PUBLIC_L_SHIRT_PRICE_ID,
+  xlarge: process.env.NEXT_PUBLIC_XL_SHIRT_PRICE_ID,
 };
 
 export default function ShirtPage() {
