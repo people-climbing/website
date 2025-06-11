@@ -1,0 +1,11 @@
+Model Information:
+* title:	Strong Bad
+* source:	https://sketchfab.com/3d-models/strong-bad-694ccc123f3747f9a621d0d3d2c5d08b
+* author:	THEREALBIGGRAFIS (https://sketchfab.com/THEREALBIGGRAFIS)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Strong Bad" (https://sketchfab.com/3d-models/strong-bad-694ccc123f3747f9a621d0d3d2c5d08b) by THEREALBIGGRAFIS (https://sketchfab.com/THEREALBIGGRAFIS) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

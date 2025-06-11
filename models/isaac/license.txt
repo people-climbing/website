@@ -1,0 +1,11 @@
+Model Information:
+* title:	Isaac
+* source:	https://sketchfab.com/3d-models/isaac-9ec61d883eb04c79981cada6eb300af7
+* author:	NGResource (https://sketchfab.com/T0MFULP)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Isaac" (https://sketchfab.com/3d-models/isaac-9ec61d883eb04c79981cada6eb300af7) by NGResource (https://sketchfab.com/T0MFULP) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
