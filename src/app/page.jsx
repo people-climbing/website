@@ -83,7 +83,7 @@ export default function Home() {
                 model={model}
                 idx={idx}
                 key={idx}
-                gridWidth={4}
+                gridWidth={3}
                 select={select}
                 toggleOverlay={toggleOverlay}
                 setHash={setHash}
