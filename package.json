@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev -p 1337",
     "build": "next build",
-    "lint": "next lint",
-    "deploy": "npm run build && bash ./deploy.sh"
+    "lint": "next lint"
   },
   "dependencies": {
     "@react-three/drei": "^9.92.3",
