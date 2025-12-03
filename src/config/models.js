@@ -5,7 +5,7 @@ const models = [
   {
     name: "katamari",
     relativeScale: 25,
-    relativeOffsetY: 100,
+    relativeOffsetY: 75,
     text: "from the top",
     hash: "A9DAZ4NxY_k",
     row: 1,
@@ -71,14 +71,14 @@ const models = [
   //   row: 1,
   //   column: 3,
   // },
-  // {
-  //   name: "steamdeck",
-  //   relativeScale: 20,
-  //   relativeOffsetY: 0,
-  //   text: "steamdeck",
-  //   row: 2,
-  //   column: 0,
-  // },
+  {
+    name: "steamdeck",
+    relativeScale: 20,
+    relativeOffsetY: 0,
+    text: "steamdeck",
+    row: 2,
+    column: 2,
+  },
   // {
   //   name: "gshock",
   //   relativeScale: 15,

@@ -28,6 +28,7 @@ export default function Model({
       <mesh
         position={[x, y, 0]}
         scale={model.relativeScale}
+        rotation={[Math.PI / 12, 0, 0]}
         ref={ref}
         onPointerOver={(event) => {
           event.stopPropagation();

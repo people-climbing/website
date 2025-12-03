@@ -1,8 +1,8 @@
 "use client";
 import * as THREE from "three";
-import { useEffect, useRef, useState } from "react";
-import { Canvas, extend, useFrame } from "@react-three/fiber";
-import { AsciiRenderer, Effects, Text3D, useProgress } from "@react-three/drei";
+import { useEffect, useState, Suspense } from "react";
+import { Canvas, extend } from "@react-three/fiber";
+import { Effects, useProgress } from "@react-three/drei";
 import { UnrealBloomPass } from "three-stdlib";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass";
 
@@ -10,9 +10,9 @@ import modelsConfig from "@/config/models";
 import Background from "@/components/Background";
 import Camera from "@/components/Camera";
 import Model from "@/components/Model";
+import Overlay from "@/components/Overlay";
 
 import styles from "./page.module.css";
-import { Suspense } from "react";
 
 extend({ UnrealBloomPass, OutputPass });
 
@@ -75,7 +75,7 @@ export default function Home() {
             <Background />
             <directionalLight
               color="white"
-              position={[0, 2, 0.5]}
+              position={[0, 2, 2]}
               intensity={1}
             />
             {models.map((model, idx) => (
@@ -99,60 +99,5 @@ export default function Home() {
         <Overlay hash={hash} setHash={setHash} toggleOverlay={toggleOverlay} />
       ) : null}
     </main>
-  );
-}
-
-// refactor these into separate components later
-
-function ScrollingBannerText() {
-  const text = useRef();
-
-  useFrame(() => {
-    text.current.position.x -= 0.1;
-    if (text.current.position.x < -40) {
-      text.current.position.x = 10;
-    }
-  });
-
-  return (
-    <Text3D ref={text} font={"/emotion-engine.json"} scale={2}>
-      {"please check back later"}
-    </Text3D>
-  );
-}
-
-function Overlay(props) {
-  const { hash, setHash, toggleOverlay } = props;
-  return (
-    <div
-      onClick={() => {
-        toggleOverlay(false);
-        setHash(null);
-      }}
-      className={styles.overlay}
-    >
-      {hash ? (
-        <iframe
-          width="75%"
-          height="75%"
-          src={`https://www.youtube.com/embed/${hash}`}
-          title="people"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        />
-      ) : (
-        <Canvas>
-          <color attach="background" args={["black"]} />
-          <directionalLight
-            color="white"
-            position={[-5, -5, 5]}
-            intensity={10}
-          />
-          <ScrollingBannerText />
-          <AsciiRenderer fgColor="white" bgColor="transparent" />
-        </Canvas>
-      )}
-    </div>
   );
 }
