@@ -15,7 +15,7 @@ npm run dev
 
 ## deploying
 
-`npm run deploy` executes a static build and pushes the assets to the `gh-pages` branch of this GitHub repository, which triggers a GitHub Pages build
+uses github actions. see `.github/workflows/deploy.yml`
 
 ## attributions
 
