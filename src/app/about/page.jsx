@@ -10,14 +10,14 @@ export default function AboutPage() {
       <AboutBackground className={styles.backgroundCanvas} />
       <div className={styles.container}>
         <h1 className={styles.title}>about</h1>
-        
+
         <div className={styles.content}>
           <p>
-            it's about the connections we make with others and the skills we develop and share.
+            {"it's about the connections we make with others and the skills we develop and share."}
           </p>
-          
+
           <p>
-            we're people.
+            {"we're people."}
           </p>
         </div>
 
