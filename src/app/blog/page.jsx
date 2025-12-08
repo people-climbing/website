@@ -12,12 +12,10 @@ export default function BlogPage() {
       <StarryBackground className={styles.backgroundCanvas} />
       <BlogBackground className={styles.backgroundCanvas} />
       <div className={styles.container}>
-        <h1 className={styles.title}>Blog</h1>
+        <h1 className={styles.title}>blog</h1>
 
         <div className={styles.postsContainer}>
-          {posts.length === 0 ? (
-            <p className={styles.noPosts}>No blog posts yet. Check back soon!</p>
-          ) : (
+          {
             posts.map((post) => (
               <article key={post.slug} className={styles.postCard}>
                 <Link href={`/blog/${post.slug}`} className={styles.postLink}>
@@ -27,12 +25,12 @@ export default function BlogPage() {
                 </Link>
               </article>
             ))
-          )}
+          }
         </div>
 
         <nav className={styles.nav}>
           <Link href="/" className={styles.link}>
-            ← Home
+            ← home
           </Link>
         </nav>
       </div>

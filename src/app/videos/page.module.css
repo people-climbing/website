@@ -58,7 +58,7 @@
   background-position: center;
 }
 
-.nav {
+/* .nav {
   position: absolute;
   top: 15px;
   left: 15px;
@@ -75,7 +75,7 @@
   filter: blur(1px);
   -webkit-filter: blur(1px);
   transition: all 0.3s ease;
-}
+} */
 
 .navLink:hover {
   text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);

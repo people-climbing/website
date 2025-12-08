@@ -54,11 +54,6 @@ export default function Home() {
     <main
       className={`${styles.main} ${progress === 100 ? "" : styles.loading}`}
     >
-      <nav className={styles.nav}>
-        <Link href="/" className={styles.navLink}>
-          Home
-        </Link>
-      </nav>
       <div className={styles.selected}>
         {selected != null && models[selected].text}
       </div>

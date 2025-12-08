@@ -36,6 +36,7 @@ export function getAllPosts() {
         title: data.title || 'Untitled',
         date: data.date || '',
         excerpt: data.excerpt || '',
+        author: data.author || '',
       };
     });
 
@@ -76,6 +77,7 @@ export function getPostBySlug(slug) {
     title: data.title || 'Untitled',
     date: data.date || '',
     excerpt: data.excerpt || '',
+    author: data.author || '',
     content: htmlContent,
   };
 }

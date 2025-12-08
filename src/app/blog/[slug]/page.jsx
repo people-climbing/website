@@ -27,7 +27,10 @@ export default function BlogPostPage({ params }) {
         <article className={styles.article}>
           <header className={styles.header}>
             <h1 className={styles.title}>{post.title}</h1>
-            <time className={styles.date}>{post.date}</time>
+            <div className={styles.meta}>
+              {post.author && <span className={styles.author}>{post.author}</span>}
+              <time className={styles.date}>{post.date}</time>
+            </div>
           </header>
 
           <div 
@@ -37,8 +40,8 @@ export default function BlogPostPage({ params }) {
         </article>
 
         <nav className={styles.nav}>
-          <Link href="/" className={styles.link}>
-            ← Home
+          <Link href="/blog" className={styles.link}>
+            ← back
           </Link>
         </nav>
       </div>
