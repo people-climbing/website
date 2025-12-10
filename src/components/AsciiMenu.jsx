@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState, useMemo } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useRef, useState, useMemo, useEffect } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
 import { Text3D, Center } from "@react-three/drei";
 import { useRouter } from "next/navigation";
 
@@ -14,20 +14,37 @@ const menuOptions = [
 export default function AsciiMenu() {
   const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const viewport = useThree((state) => state.viewport);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Adjust positions based on screen size
+  const titlePosition = isMobile ? [0, 1, 0] : [-2, 1.5, 0];
+  const menuPosition = isMobile ? [0, -1.5, 0] : [3, 0, 0];
+  const menuSpacing = isMobile ? 1.2 : 1.5;
+  const scale = isMobile ? 0.6 : 1;
 
   return (
-    <group>
-      {/* Bouncing "ppl..." text - top left corner */}
-      <BouncingText text="ppl..." position={[-2, 1.5, 0]} />
+    <group scale={scale}>
+      {/* Bouncing "ppl..." text */}
+      <BouncingText text="ppl..." position={titlePosition} />
 
-      {/* Menu options - bottom right corner */}
-      <group position={[3, -0, 0]}>
+      {/* Menu options */}
+      <group position={menuPosition}>
         {menuOptions.map((option, index) => (
           <MenuItem
             key={option.label}
             label={option.label}
             route={option.route}
-            position={[0, -index * 1.5, 0]}
+            position={[0, -index * menuSpacing, 0]}
             isHovered={hoveredIndex === index}
             onHover={() => setHoveredIndex(index)}
             onUnhover={() => setHoveredIndex(null)}
