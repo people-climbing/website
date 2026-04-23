@@ -1,104 +1,182 @@
 "use client";
-import * as THREE from "three";
-import { useEffect, useState, Suspense } from "react";
-import Link from "next/link";
-import { Canvas, extend } from "@react-three/fiber";
-import { Effects, useProgress } from "@react-three/drei";
-import { UnrealBloomPass } from "three-stdlib";
-import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass";
+import { useEffect, useState, Suspense, useMemo } from "react";
+import { Canvas } from "@react-three/fiber";
+import { useProgress, KeyboardControls, Stars } from "@react-three/drei";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 import modelsConfig from "@/config/models";
-import Background from "@/components/Background";
 import Camera from "@/components/Camera";
 import Model from "@/components/Model";
 import Overlay from "@/components/Overlay";
 
 import styles from "./page.module.css";
 
-extend({ UnrealBloomPass, OutputPass });
-
-export default function Home() {
-  const [time, setTime] = useState(null);
-  const [models, setModels] = useState([]);
-  const [selected, select] = useState(null);
+export default function VideoPage() {
+  const [time, setTime] = useState("");
+  const [selected, setSelected] = useState(null);
   const [showOverlay, toggleOverlay] = useState(false);
   const [hash, setHash] = useState(null);
   const { progress } = useProgress();
 
+  const GRID_SIZE = 3;
+
   useEffect(() => {
-    setInterval(() => {
-      setTime(getTime());
+    const timer = setInterval(() => {
+      const d = new Date();
+      setTime(d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }));
     }, 1000);
-    setModels(modelsConfig);
+    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
     document.body.style.cursor = selected !== null ? "pointer" : "auto";
   }, [selected]);
 
-  function getTime() {
-    function addZero(i) {
-      if (i < 10) {
-        i = "0" + i;
-      }
-      return i;
+  const map = useMemo(() => [
+    { name: "up", keys: ["ArrowUp", "w", "W"] },
+    { name: "down", keys: ["ArrowDown", "s", "S"] },
+    { name: "left", keys: ["ArrowLeft", "a", "A"] },
+    { name: "right", keys: ["ArrowRight", "d", "D"] },
+    { name: "enter", keys: ["Enter", " "] },
+  ], []);
+
+  const handleKeyboardSelection = (direction) => {
+    if (selected === null) {
+      setSelected(0);
+      return;
     }
-    const d = new Date();
-    const h = addZero(d.getHours());
-    const m = addZero(d.getMinutes());
-    const s = addZero(d.getSeconds());
-    return h + ":" + m + ":" + s;
-  }
+    const row = Math.floor(selected / GRID_SIZE);
+    const col = selected % GRID_SIZE;
+
+    let newRow = row;
+    let newCol = col;
+
+    if (direction === "up") newRow = Math.max(0, row - 1);
+    if (direction === "down") newRow = Math.min(GRID_SIZE - 1, row + 1);
+    if (direction === "left") newCol = Math.max(0, col - 1);
+    if (direction === "right") newCol = Math.min(GRID_SIZE - 1, col + 1);
+
+    const newIndex = newRow * GRID_SIZE + newCol;
+    if (newIndex < modelsConfig.length) {
+      setSelected(newIndex);
+    }
+  };
 
   return (
-    <main
-      className={`${styles.main} ${progress === 100 ? "" : styles.loading}`}
-    >
-      <div className={styles.selected}>
-        {selected != null && models[selected].text}
-      </div>
-      {progress === 100 ? <div className={styles.time}>{time}</div> : null}
-      <div className={styles.grid}>
-        {/* <KeyboardControls
-          map={[
-            { name: "up", keys: ["ArrowUp"] },
-            { name: "down", keys: ["ArrowDown"] },
-            { name: "left", keys: ["ArrowLeft"] },
-            { name: "right", keys: ["ArrowRight"] },
-          ]}
-        > */}
-        <Canvas>
-          <Suspense fallback={null}>
-            <Effects disableGamma>
-              <unrealBloomPass threshold={1} strength={0.2} radius={0} />
-              <outputPass args={[THREE.ACESFilmicToneMapping]} />
-            </Effects>
-            <Background />
-            <directionalLight
-              color="white"
-              position={[0, 2, 2]}
-              intensity={1}
-            />
-            {models.map((model, idx) => (
-              <Model
-                model={model}
-                idx={idx}
-                key={idx}
-                gridWidth={3}
-                select={select}
-                toggleOverlay={toggleOverlay}
-                setHash={setHash}
-                isSelected={selected === idx}
+    <KeyboardControls map={map}>
+      <main className={styles.main}>
+        {/* Persistent UI elements */}
+        <div className={styles.selected}>
+          {selected !== null && modelsConfig[selected]?.text}
+        </div>
+        <div className={styles.time}>{time}</div>
+
+        {/* Loading Overlay */}
+        {progress < 100 && (
+          <div className={styles.loadingOverlay}>
+            <div className={styles.loadingScreen}>
+              <span className={styles.dot}>.</span>
+              <span className={styles.dot}>.</span>
+              <span className={styles.dot}>.</span>
+            </div>
+          </div>
+        )}
+        
+        <div className={styles.grid}>
+          <Canvas
+            dpr={[1, 2]}
+            performance={{ min: 0.5 }}
+            gl={{ antialias: true }}
+          >
+            <Suspense fallback={null}>
+              <color attach="background" args={["#000000"]} />
+              
+              <Camera />
+              <Stars
+                radius={300}
+                depth={60}
+                count={20000}
+                factor={7}
+                saturation={0}
+                fade
+                speed={1}
               />
-            ))}
-            <Camera />
-          </Suspense>
-        </Canvas>
-        {/* </KeyboardControls> */}
-      </div>
-      {showOverlay ? (
-        <Overlay hash={hash} setHash={setHash} toggleOverlay={toggleOverlay} />
-      ) : null}
-    </main>
+              
+              <ambientLight intensity={0.6} />
+              
+              <directionalLight 
+                position={[5, 10, 5]} 
+                intensity={1.2} 
+              />
+              
+              <spotLight 
+                position={[-5, 8, -5]} 
+                intensity={1} 
+                angle={0.3} 
+                penumbra={1} 
+              />
+
+              <group position={[0, 0, 0]}>
+                {modelsConfig.map((model, idx) => (
+                  <Model
+                    key={model.name}
+                    model={model}
+                    idx={idx}
+                    gridWidth={GRID_SIZE}
+                    select={setSelected}
+                    toggleOverlay={toggleOverlay}
+                    setHash={setHash}
+                    isSelected={selected === idx}
+                  />
+                ))}
+              </group>
+
+              <EffectComposer>
+                <Bloom 
+                  intensity={0.4} 
+                  luminanceThreshold={0.9} 
+                  mipmapBlur 
+                />
+              </EffectComposer>
+
+              <KeyboardHandler 
+                onMove={handleKeyboardSelection} 
+                onSelect={() => {
+                  if (selected !== null) {
+                    setHash(modelsConfig[selected].hash);
+                    toggleOverlay(true);
+                  }
+                }}
+              />
+            </Suspense>
+          </Canvas>
+        </div>
+
+        {showOverlay && (
+          <Overlay hash={hash} setHash={setHash} toggleOverlay={toggleOverlay} />
+        )}
+      </main>
+    </KeyboardControls>
   );
+}
+
+import { useKeyboardControls } from "@react-three/drei";
+function KeyboardHandler({ onMove, onSelect }) {
+  const [, get] = useKeyboardControls();
+  
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const { up, down, left, right, enter } = get();
+      if (up) onMove("up");
+      if (down) onMove("down");
+      if (left) onMove("left");
+      if (right) onMove("right");
+      if (enter) onSelect();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [get, onMove, onSelect]);
+
+  return null;
 }

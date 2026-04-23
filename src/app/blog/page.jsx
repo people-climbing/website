@@ -9,7 +9,6 @@ export default function BlogPage() {
 
   return (
     <main className={styles.main}>
-      <StarryBackground className={styles.backgroundCanvas} />
       <BlogBackground className={styles.backgroundCanvas} />
       <div className={styles.container}>
         <h1 className={styles.title}>blog</h1>

@@ -5,7 +5,7 @@ const models = [
   {
     name: "katamari",
     relativeScale: 25,
-    relativeOffsetY: 75,
+    relativeOffsetY: 100, // Center-origin: needs lift
     text: "from the top",
     hash: "A9DAZ4NxY_k",
     row: 1,
@@ -14,7 +14,7 @@ const models = [
   {
     name: "strongbad",
     relativeScale: 150,
-    relativeOffsetY: 0,
+    relativeOffsetY: 0, // Feet-origin: no lift
     text: "quality over opinion",
     hash: "jEUZn7ehFkQ",
     row: 1,
@@ -23,7 +23,7 @@ const models = [
   {
     name: "isaac",
     relativeScale: 35,
-    relativeOffsetY: 0,
+    relativeOffsetY: 0, // Feet-origin: no lift
     text: "dance with me",
     hash: "-MwPIRp8tK0",
     row: 1,
@@ -32,7 +32,7 @@ const models = [
   {
     name: "daxter",
     relativeScale: 4,
-    relativeOffsetY: 0,
+    relativeOffsetY: 0, // Feet-origin: no lift
     text: "transparent girl",
     hash: "xbrkV1KaQwc",
     row: 2,
@@ -41,7 +41,7 @@ const models = [
   {
     name: "rubikscube",
     relativeScale: 500,
-    relativeOffsetY: 50,
+    relativeOffsetY: 100, // Center-origin: needs lift
     text: "birthday",
     hash: "1H5T4XF3Wis",
     row: 2,
@@ -74,7 +74,7 @@ const models = [
   {
     name: "steamdeck",
     relativeScale: 20,
-    relativeOffsetY: 0,
+    relativeOffsetY: 100, // Center-origin: needs lift
     text: "steamdeck",
     row: 2,
     column: 2,

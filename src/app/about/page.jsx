@@ -6,7 +6,6 @@ import StarryBackground from "@/components/StarryBackground";
 export default function AboutPage() {
   return (
     <main className={styles.main}>
-      <StarryBackground className={styles.backgroundCanvas} />
       <AboutBackground className={styles.backgroundCanvas} />
       <div className={styles.container}>
         <h1 className={styles.title}>about</h1>

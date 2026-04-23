@@ -126,10 +126,12 @@ export default function ShirtPage() {
         <p>printed on a comfort colors 1717 heavyweight tee</p>
         <br />
         <h2>size</h2>
-        {sizeButton("small")}
-        {sizeButton("medium")}
-        {sizeButton("large")}
-        {sizeButton("xlarge")}
+        <div className={styles["size-options"]}>
+          {sizeButton("small")}
+          {sizeButton("medium")}
+          {sizeButton("large")}
+          {sizeButton("xlarge")}
+        </div>
         <br />
         <br />
         <h2>quantity</h2>

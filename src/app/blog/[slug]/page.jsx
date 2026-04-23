@@ -21,7 +21,6 @@ export default function BlogPostPage({ params }) {
 
   return (
     <main className={styles.main}>
-      <StarryBackground className={styles.backgroundCanvas} />
       <BlogBackground className={styles.backgroundCanvas} />
       <div className={styles.container}>
         <article className={styles.article}>

@@ -7,7 +7,12 @@ import Camera from "@/components/Camera";
 
 export default function StarryBackground({ className }) {
   return (
-    <Canvas className={className}>
+    <Canvas
+      className={className}
+      dpr={[1, 1.5]}
+      performance={{ min: 0.5 }}
+      gl={{ antialias: false }}
+    >
       <Suspense fallback={null}>
         <Background />
         <Camera />

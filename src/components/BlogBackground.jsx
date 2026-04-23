@@ -31,7 +31,7 @@ function StickFigure({ position, phase = 0 }) {
   });
 
   return (
-    <group ref={groupRef} position={position} scale={150}>
+    <group ref={groupRef} position={position} scale={0.5}>
       {/* Head */}
       <mesh position={[0, 1.2, 0]}>
         <sphereGeometry args={[0.3, 8, 8]} />
@@ -74,6 +74,7 @@ function StickFigure({ position, phase = 0 }) {
 function Scene() {
   return (
     <>
+      <Background />
       <Camera />
 
       {/* Lighting */}
@@ -82,21 +83,25 @@ function Scene() {
       <pointLight position={[0, 0, 5]} intensity={2} />
 
       {/* Left side stick figures - spaced vertically */}
-      <StickFigure position={[-700, 400, 9]} phase={0} />
-      <StickFigure position={[-700, 0, 9]} phase={1} />
-      <StickFigure position={[-700, -400, 9]} phase={2} />
+      <StickFigure position={[-5, 2.5, -2]} phase={0} />
+      <StickFigure position={[-5, 0, -2]} phase={1} />
+      <StickFigure position={[-5, -2.5, -2]} phase={2} />
 
       {/* Right side stick figures - spaced vertically */}
-      <StickFigure position={[700, 400, 9]} phase={1.5} />
-      <StickFigure position={[700, 0, 9]} phase={2.5} />
-      <StickFigure position={[700, -400, 9]} phase={0.5} />
+      <StickFigure position={[5, 2.5, -2]} phase={1.5} />
+      <StickFigure position={[5, 0, -2]} phase={2.5} />
+      <StickFigure position={[5, -2.5, -2]} phase={0.5} />
     </>
   );
 }
 
 export default function BlogBackground({ className }) {
   return (
-    <Canvas className={className} camera={{ position: [0, 0, 10], fov: 60 }}>
+    <Canvas
+      className={className}
+      dpr={[1, 1.5]}
+      performance={{ min: 0.5 }}
+    >
       <Suspense fallback={null}>
         <Scene />
       </Suspense>

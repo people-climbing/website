@@ -27,13 +27,13 @@ export default function AsciiMenu() {
   }, []);
 
   // Adjust positions based on screen size
-  const titlePosition = isMobile ? [0, 1, 0] : [-2, 1.5, 0];
-  const menuPosition = isMobile ? [0, -1.5, 0] : [3, 0, 0];
+  const titlePosition = isMobile ? [0, 1.5, 0] : [-2, 2.5, 0];
+  const menuPosition = isMobile ? [0, -1.5, 0] : [3, 0.5, 0];
   const menuSpacing = isMobile ? 1.2 : 1.5;
   const scale = isMobile ? 0.6 : 1;
 
   return (
-    <group scale={scale}>
+    <group scale={scale} rotation={[-Math.PI / 3, 0, 0]}>
       {/* Bouncing "ppl..." text */}
       <BouncingText text="ppl..." position={titlePosition} />
 
@@ -53,35 +53,35 @@ export default function AsciiMenu() {
         ))}
       </group>
 
-      <ambientLight intensity={0.4} />
-
-      {/* Main light from above and to the right */}
-      <directionalLight position={[8, 12, 5]} intensity={2} />
+      <ambientLight intensity={0.5} />
       
-      {/* Secondary light from upper left for balance */}
-      <directionalLight position={[-5, 8, 3]} intensity={0.6} />
-      
-      {/* Fill light from front for visibility */}
-      <pointLight position={[0, 0, 8]} intensity={0.8} />
-      
-      {/* Accent light from behind right for edge definition */}
-      <pointLight position={[6, 3, -4]} intensity={0.5} />
+      {/* Reduced from 4 additional lights to 2 */}
+      <directionalLight position={[8, 12, 5]} intensity={1.5} />
+      <pointLight position={[0, 0, 8]} intensity={1} />
     </group>
   );
 }
 
 function BouncingText({ text, position }) {
   const groupRef = useRef();
-  const letters = text.split("");
+  const letters = useMemo(() => text.split(""), [text]);
 
   useFrame(({ clock }) => {
     if (groupRef.current) {
+      const time = clock.getElapsedTime();
       groupRef.current.children.forEach((child, i) => {
-        child.position.y = Math.sin(clock.getElapsedTime() * 3 + i * 1) * 0.75;
-        // child.rotation.z = Math.sin(clock.getElapsedTime() * 2.5 + i * 0.6) * 0.15;
+        child.position.y = Math.sin(time * 3 + i * 1) * 0.75;
       });
     }
   });
+
+  const materialProps = useMemo(() => ({
+    color: "#ffffff",
+    emissive: "#000000",
+    emissiveIntensity: 0.8,
+    metalness: 0.5,
+    roughness: 0.3,
+  }), []);
 
   return (
     <group ref={groupRef} position={position}>
@@ -89,17 +89,12 @@ function BouncingText({ text, position }) {
         <Text3D
           key={index}
           font="/emotion-engine.json"
-          height={0.2}
+          height={0.1}
+          bevelEnabled={false} // Performance optimization
           position={[index - (letters.length * 1.2) / 2, 0, 0]}
         >
           {letter}
-          <meshStandardMaterial
-            color="#ffffff"
-            emissive="#000000"
-            emissiveIntensity={0.8}
-            metalness={0.5}
-            roughness={0.3}
-          />
+          <meshStandardMaterial {...materialProps} />
         </Text3D>
       ))}
     </group>
@@ -110,12 +105,14 @@ function MenuItem({ label, route, position, isHovered, onHover, onUnhover, onCli
   const meshRef = useRef();
 
   useFrame(({ clock }) => {
-    if (meshRef.current && isHovered) {
-      meshRef.current.rotation.y = Math.sin(clock.getElapsedTime() * 3) * 0.1;
-      meshRef.current.position.z = Math.sin(clock.getElapsedTime() * 2) * 0.2;
-    } else if (meshRef.current) {
-      meshRef.current.rotation.y = 0;
-      meshRef.current.position.z = 0;
+    if (meshRef.current) {
+      if (isHovered) {
+        meshRef.current.rotation.y = Math.sin(clock.getElapsedTime() * 3) * 0.1;
+        meshRef.current.position.z = Math.sin(clock.getElapsedTime() * 2) * 0.2;
+      } else {
+        meshRef.current.rotation.y = 0;
+        meshRef.current.position.z = 0;
+      }
     }
   });
 
@@ -125,6 +122,7 @@ function MenuItem({ label, route, position, isHovered, onHover, onUnhover, onCli
       emissive: isHovered ? "#000000" : "#ffffff",
       emissiveIntensity: isHovered ? 0.8 : 0.2,
       metalness: 0.5,
+      roughness: 0.4,
     }),
     [isHovered]
   );
@@ -134,7 +132,8 @@ function MenuItem({ label, route, position, isHovered, onHover, onUnhover, onCli
       <group ref={meshRef}>
         <Text3D
           font="/emotion-engine.json"
-          height={0.3}
+          height={0.1}
+          bevelEnabled={false} // Performance optimization
           onPointerOver={(e) => {
             e.stopPropagation();
             onHover();
