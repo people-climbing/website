@@ -17,7 +17,7 @@ export default function Overlay({ hash, setHash, toggleOverlay }) {
           width="75%"
           height="75%"
           src={`https://www.youtube.com/embed/${hash}`}
-          title="people"
+          title="ppl"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen

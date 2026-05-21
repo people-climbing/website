@@ -6,8 +6,8 @@ const myFont = localFont({
 });
 
 export const metadata = {
-  title: "people",
-  description: "the room is dark and spinning",
+  title: "ppl",
+  description: "ppl climbing",
 };
 
 export default function RootLayout({ children }) {
