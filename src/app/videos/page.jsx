@@ -91,7 +91,7 @@ export default function VideoPage() {
             <Suspense fallback={null}>
               <color attach="background" args={["#000000"]} />
               
-              <Camera />
+              <Camera mouseDistort />
               <Stars
                 radius={300}
                 depth={60}
@@ -99,7 +99,7 @@ export default function VideoPage() {
                 factor={7}
                 saturation={0}
                 fade
-                speed={1}
+                speed={0.1}
               />
               
               <ambientLight intensity={0.6} />

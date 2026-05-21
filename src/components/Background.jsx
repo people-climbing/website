@@ -7,7 +7,7 @@ export default function Background() {
     <group>
       <color attach="background" args={[0x000000]} />
       <Stars
-        count={5000}
+        count={2500}
         depth={50}
         radius={100}
         factor={4}
