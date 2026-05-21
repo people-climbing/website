@@ -5,7 +5,7 @@ const models = [
   {
     name: "katamari",
     relativeScale: 25,
-    relativeOffsetY: 100, // Center-origin: needs lift
+    relativeOffsetY: 100,
     text: "from the top",
     hash: "A9DAZ4NxY_k",
     row: 1,
@@ -14,7 +14,7 @@ const models = [
   {
     name: "strongbad",
     relativeScale: 150,
-    relativeOffsetY: 0, // Feet-origin: no lift
+    relativeOffsetY: 0,
     text: "quality over opinion",
     hash: "jEUZn7ehFkQ",
     row: 1,
@@ -23,7 +23,7 @@ const models = [
   {
     name: "isaac",
     relativeScale: 35,
-    relativeOffsetY: 0, // Feet-origin: no lift
+    relativeOffsetY: 0,
     text: "dance with me",
     hash: "-MwPIRp8tK0",
     row: 1,
@@ -32,7 +32,7 @@ const models = [
   {
     name: "daxter",
     relativeScale: 4,
-    relativeOffsetY: 0, // Feet-origin: no lift
+    relativeOffsetY: 25,
     text: "transparent girl",
     hash: "xbrkV1KaQwc",
     row: 2,
@@ -40,44 +40,47 @@ const models = [
   },
   {
     name: "rubikscube",
-    relativeScale: 500,
-    relativeOffsetY: 100, // Center-origin: needs lift
+    relativeScale: 700,
+    relativeOffsetY: 50,
     text: "birthday",
     hash: "1H5T4XF3Wis",
     row: 2,
     column: 1,
   },
-  // {
-  //   name: "coke",
-  //   relativeScale: 50,
-  //   relativeOffsetY: -100,
-  //   text: "coke",
-  //   row: 1,
-  //   column: 1,
-  // },
-  // {
-  //   name: "fujifilm",
-  //   relativeScale: 200,
-  //   relativeOffsetY: -50,
-  //   text: "fujifilm",
-  //   row: 1,
-  //   column: 2,
-  // },
+  {
+    name: "coke",
+    relativeScale: 50,
+    relativeOffsetY: 0,
+    text: "coke",
+    row: 1,
+    column: 1,
+  },
+  {
+    name: "fujifilm",
+    relativeScale: 200,
+    relativeOffsetY: 50,
+    text: "mic check",
+    hash: "ozjNi3y2E8A",
+    row: 2,
+    column: 2,
+  },
   // {
   //   name: "walkman",
   //   relativeScale: 500,
-  //   relativeOffsetY: 0,
-  //   text: "walkman",
-  //   row: 1,
-  //   column: 3,
+  //   relativeOffsetY: 60,
+  //   text: "mic check",
+  //   hash: "ozjNi3y2E8A",
+  //   row: 2,
+  //   column: 2,
   // },
   {
     name: "steamdeck",
     relativeScale: 20,
-    relativeOffsetY: 100, // Center-origin: needs lift
-    text: "steamdeck",
-    row: 2,
-    column: 2,
+    relativeOffsetY: 50,
+    text: "seven goblins",
+    hash: "3soCEJipSlM",
+    row: 3,
+    column: 1,
   },
   // {
   //   name: "gshock",
@@ -87,14 +90,14 @@ const models = [
   //   row: 2,
   //   column: 1,
   // },
-  // {
-  //   name: "gundam",
-  //   relativeScale: 25,
-  //   relativeOffsetY: 0,
-  //   text: "gundam",
-  //   row: 2,
-  //   column: 1,
-  // },
+  {
+    name: "gundam",
+    relativeScale: 25,
+    relativeOffsetY: 0,
+    text: "gundam",
+    row: 2,
+    column: 1,
+  },
   // {
   //   name: "thinkpad",
   //   relativeScale: 0.5,
