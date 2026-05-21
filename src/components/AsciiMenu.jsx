@@ -15,7 +15,6 @@ export default function AsciiMenu() {
   const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  const viewport = useThree((state) => state.viewport);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -31,6 +30,11 @@ export default function AsciiMenu() {
   const menuPosition = isMobile ? [0, -1.5, 0] : [3, 0.5, 0];
   const menuSpacing = isMobile ? 1.2 : 1.5;
   const scale = isMobile ? 0.6 : 1;
+
+  // Hide menu on mobile/portrait viewports
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <group scale={scale} rotation={[-Math.PI / 3, 0, 0]}>
@@ -53,10 +57,8 @@ export default function AsciiMenu() {
         ))}
       </group>
 
-      <ambientLight intensity={0.5} />
-      
-      {/* Reduced from 4 additional lights to 2 */}
-      <directionalLight position={[8, 12, 5]} intensity={1.5} />
+      <ambientLight intensity={1} />
+      <directionalLight position={[8, 12, 5]} intensity={1} />
       <pointLight position={[0, 0, 8]} intensity={1} />
     </group>
   );
@@ -89,8 +91,7 @@ function BouncingText({ text, position }) {
         <Text3D
           key={index}
           font="/emotion-engine.json"
-          height={0.1}
-          bevelEnabled={false} // Performance optimization
+          height={1}
           position={[index - (letters.length * 1.2) / 2, 0, 0]}
         >
           {letter}
@@ -101,7 +102,7 @@ function BouncingText({ text, position }) {
   );
 }
 
-function MenuItem({ label, route, position, isHovered, onHover, onUnhover, onClick }) {
+function MenuItem({ label, position, isHovered, onHover, onUnhover, onClick }) {
   const meshRef = useRef();
 
   useFrame(({ clock }) => {
@@ -119,21 +120,20 @@ function MenuItem({ label, route, position, isHovered, onHover, onUnhover, onCli
   const textMaterial = useMemo(
     () => ({
       color: "#ffffff",
-      emissive: isHovered ? "#000000" : "#ffffff",
-      emissiveIntensity: isHovered ? 0.8 : 0.2,
+      emissive: isHovered ? "#ff0000" : "#000000",
+      emissiveIntensity: isHovered ? 1 : 0.8,
       metalness: 0.5,
-      roughness: 0.4,
+      roughness: 0.3,
     }),
     [isHovered]
   );
 
   return (
     <Center position={position}>
-      <group ref={meshRef}>
+      <group ref={meshRef} >
         <Text3D
           font="/emotion-engine.json"
-          height={0.1}
-          bevelEnabled={false} // Performance optimization
+          height={1}
           onPointerOver={(e) => {
             e.stopPropagation();
             onHover();

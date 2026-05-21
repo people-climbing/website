@@ -26,7 +26,7 @@ export default function Home() {
         <Canvas
           className={styles.backgroundCanvas}
           dpr={[1, 1.5]}
-          performance={{ min: 0.5 }}
+          performance={{ min: 1 }}
         >
           <Suspense fallback={null}>
             <Background />
@@ -37,7 +37,7 @@ export default function Home() {
             fgColor="white"
             bgColor="transparent"
             invert={false}
-            resolution={0.15}
+            resolution={0.25}
           />
         </Canvas>
       </div>

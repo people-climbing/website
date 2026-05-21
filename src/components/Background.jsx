@@ -7,12 +7,12 @@ export default function Background() {
     <group>
       <color attach="background" args={[0x000000]} />
       <Stars
-        count={10000}
+        count={5000}
         depth={50}
-        radius={200}
-        factor={6}
+        radius={100}
+        factor={4}
         saturation={0}
-        speed={1}
+        speed={0.005}
         fade
       />
     </group>
