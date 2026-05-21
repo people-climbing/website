@@ -18,7 +18,10 @@ export default function AsciiMenu() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(
+        window.innerWidth < 768 ||
+        window.matchMedia("(orientation: portrait)").matches
+      );
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);

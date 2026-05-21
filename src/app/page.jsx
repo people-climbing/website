@@ -16,7 +16,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.grid}>
         <div className={styles.mobileMenu}>
-          <h1 className={styles.mobileTitle}>people</h1>
+          <h1 className={styles.mobileTitle}>ppl</h1>
           <nav className={styles.nav}>
             <Link href="/about" className={styles.navLink}>about</Link>
             <Link href="/videos" className={styles.navLink}>videos</Link>
